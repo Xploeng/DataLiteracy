@@ -2,7 +2,7 @@
 project for data literacy module
 
 # Dataset: Meaning of each column
-Datum und Uhrzeit: day and year the record was created
+Datum und Uhrzeit: day and year the record was created <br>
 Gesamtanlage[kWh]: generated energy by the photovoltaik module in kWh 
 FX: Tagesmaximum Windspitze in m/s (höchste Windgeschwindigkeit)
 FM: Tagesmittel Windgeschwindigkeiin m/s
