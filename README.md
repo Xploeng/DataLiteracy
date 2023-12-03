@@ -5,7 +5,7 @@ project for data literacy module
 Datum und Uhrzeit: day and year the record was created <br>
 Gesamtanlage[kWh]: generated energy by the photovoltaik module in kWh <br>
 FX: Tagesmaximum Windspitze in m/s (höchste Windgeschwindigkeit) <br>
-FM: Tagesmittel Windgeschwindigkeiin m/s <br>
+FM: Tagesmittel Windgeschwindigkeit in m/s <br>
 RSK: tägliche Niederschlagshöhe in mm <br>
 RSKF: Niederschlagsform in numerical code (0:kein Niederschlag, 4: Form nicht bekannt, obwohl Niederschlag gemeldet, 6: nur Regen, 7: nur Schnee, 8: Regen und Schnee, und/oder Schneeregen) <br>
 SDK: tägliche Sonnenscheindauer in h <br>
