@@ -53,6 +53,9 @@ final_df = pd.concat([pv_df, weather_df], axis=1)
 final_df.rename(columns={"Gesamtanlage": "Gesamtanlage[kWh]"}, inplace=True)
 final_df.to_csv("data/pv_weather_data_2019_to_2022.csv", sep=" ", index=False, columns=final_df.columns)
 
+## write data into an excel file
+final_df.to_excel("data/pv_weather_data_2019_to_2022.xlsx", index=False, columns=final_df.columns)
+
 # check df
 #df = pd.read_csv("data/pv_weather_data_2019_to_2022.csv", sep=" ")
 #print(df)
