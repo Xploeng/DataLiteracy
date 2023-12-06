@@ -57,5 +57,5 @@ final_df.to_csv("data/pv_weather_data_2019_to_2022.csv", sep=" ", index=False, c
 final_df.to_excel("data/pv_weather_data_2019_to_2022.xlsx", index=False, columns=final_df.columns)
 
 # check df
-#df = pd.read_csv("data/pv_weather_data_2019_to_2022.csv", sep=" ")
-#print(df)
+df = pd.read_csv("data/pv_weather_data_2019_to_2022.csv", sep=" ")
+print(df)
