@@ -39,7 +39,7 @@ latitudes = pd.Series(n_points * [lat])
 solar_noon_times = get_times(dates, longitudes, latitudes)['solar_noon']
 solar_noon_altitudes = get_position(solar_noon_times, longitudes, latitudes)['altitude']
 
-df['Solar noon altitudes'] = solar_noon_altitudes
+df['Solar noon altitudes'] = solar_noon_altitudes # TODO: Move to get_project_data (?)
 
 #print(max(solar_noon_altitudes))
 #print(dates[solar_noon_altitudes.idxmax()])
@@ -52,7 +52,7 @@ y = df['Gesamtanlage[kWh]']
 alpha = 2.5e-3 # Regularization factor
 reg = Lasso(alpha).fit(X, y)
 
-coefficients = pd.concat([pd.DataFrame(columns),pd.DataFrame(np.transpose(reg.coef_))], axis = 1)
+coefficients = pd.concat([pd.DataFrame(columns),pd.DataFrame(np.transpose(reg.coef_))], axis = 1) # Normalize features to get an idea about their importance.
 
 print("Regularization factor: ", alpha)
 print(coefficients)
