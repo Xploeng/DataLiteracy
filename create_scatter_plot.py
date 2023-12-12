@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-import get_project_data
+from utils import get_dataframe
 
 # Load data:
-df = get_project_data.df
+df = get_dataframe()
 
 
 # Group by month:
