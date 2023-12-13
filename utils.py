@@ -1,6 +1,8 @@
 import pandas as pd
 import datetime
 from suncalc import get_position, get_times
+import numpy as np
+import matplotlib.pyplot as plt
 
 def get_dataframe(type='csv', solar_noon_altitudes=False):
     '''
@@ -45,3 +47,46 @@ def _gen_solar_noon_altitudes(df):
     solar_noon_altitudes = get_position(solar_noon_times, longitudes, latitudes)['altitude']
 
     return solar_noon_altitudes
+
+def draw_scatter_plot(df, save=False, continuous=False, name='kWh-sunshine-scatter.png'):
+    n_days = len(df)
+    
+    color_gradient = []
+
+    if continuous:
+        for k in range(n_days):
+            if k <= 365 + 59: # 29.02.2020
+                if k % 365 < np.ceil(365/2):
+                    color_gradient.append(k % 365)
+                else:
+                    color_gradient.append(365 - (k % 365))
+            else: 
+                if (k-1) % 365 < np.ceil(365/2):
+                    color_gradient.append((k-1) % 365)
+                else:
+                    color_gradient.append(365 - ((k-1) % 365))
+    else:
+        for k in range(n_days):
+            color_gradient.append(6 - np.abs(int(df["Datum und Uhrzeit"][k][3:5])-6))
+        
+    
+
+    # Plotting:
+    fig, ax = plt.subplots()
+
+    
+    sc = plt.scatter(df[" SDK"], df["Gesamtanlage[kWh]"], c=color_gradient, cmap='jet')
+
+    cbar = plt.colorbar(sc)
+    cbar.ax.get_yaxis().set_ticks([])
+
+    for j, month in enumerate(['Dec','Nov/Jan','Oct/Feb','Sep/Mar','Aug/Apr','Jul/May','Jun']):
+        cbar.ax.text(1.5, j * color_gradient[30], month, ha='left', va='center')
+        #cbar.ax.text(1.5, 6/7*(j + .5), month, ha='left', va='center')
+
+    plt.xlabel("Hours of sunshine")
+    plt.ylabel("Electricity produced in kWh")
+
+    if save:
+        plt.savefig("plots/" + name)
+    plt.show()
