@@ -55,19 +55,20 @@ def draw_scatter_plot(df, save=False, continuous=False, name='kWh-sunshine-scatt
 
     if continuous:
         for k in range(n_days):
-            if k <= 365 + 59: # 29.02.2020
-                if k % 365 < np.ceil(365/2):
-                    color_gradient.append(k % 365)
-                else:
-                    color_gradient.append(365 - (k % 365))
-            else: 
-                if (k-1) % 365 < np.ceil(365/2):
-                    color_gradient.append((k-1) % 365)
-                else:
-                    color_gradient.append(365 - ((k-1) % 365))
+            if k > 365 + 59: # adjusts count to gap year
+                k -= 1
+            if k % 365 < np.ceil(365/2):
+                color_gradient.append(k % 365)
+            else:
+                color_gradient.append(365 - (k % 365))
     else:
         for k in range(n_days):
             color_gradient.append(6 - np.abs(int(df["Datum und Uhrzeit"][k][3:5])-6))
+            
+    # Tests gap year calc
+    assert(color_gradient[0* 365 + 20] == color_gradient[1* 365 + 20] == color_gradient[2* 365 + 21])
+    assert(df["Datum und Uhrzeit"][0* 365 + 20][:5] == df["Datum und Uhrzeit"][1* 365 + 20][:5] == df["Datum und Uhrzeit"][2* 365 + 21][:5])
+    
         
     
 
