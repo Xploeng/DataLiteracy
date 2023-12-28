@@ -68,6 +68,33 @@ Put your abstract here. Abstracts typically start with a sentence motivating why
 
 Motivate the problem, situation or topic you decided to work on. Describe why it matters (is it of societal, economic, scientific value?). Outline the rest of the paper (use references, e.g.~to \Cref{sec:methods}: What kind of data you are working with, how you analyze it, and what kind of conclusion you reached. The point of the introduction is to make the reader want to read the rest of the paper.
 
+\section{Photovoltaic cells}\label{sec:pv}
+
+Photovoltaic cells, also called solar cells, are key parts of solar panels which are widely used for electricity production. They can be used in devices like pocket calculators or be strung together to power houses or form industrial solar farms.\\
+\begin{enumerate}
+	\item Basic structure: \begin{itemize}
+			\item solar cells are made of semiconductor materials, usually silicone
+			\item the cell contains two layers of silicone, one with excess electrons and the other with missing electrons called holes
+			\item the layers are therefore differently charged and form an electrical field
+	\end{itemize}
+	\item Photovoltaic effect: \begin{itemize}
+		\item When photons hit the semiconductor material in the solar cell, they can dislodge electrons
+		\item dislodged electrons leave a hole
+		\item the electrons and holes now move directed by the electrical field to opposite sides of the silicone layer
+	\end{itemize}
+	\item Generation of electric current \begin{itemize}
+		\item metal contacts are placed at both sides of the silicone and facilitate the electrical flow
+		\item the electrons at one side can now flow through the wire into the holes at the other side of the silicone
+		\item this creates an electrical circuit
+	\end{itemize}
+\end{enumerate}
+The electrical circuit created by the solar cells can now be used just like any other. Solar cells include other building blocks like an anti-reflective surface, a protective glass screen and more. \citep{SolarCells}
+
+\section{Photovoltaic array specifications}
+Solar cells are connected in series and parallel to form solar modules, which can generate higher voltages and power outputs.
+Several solar modules can again be connected to create solar arrays.\\
+In this work we want to analyze a specific solar array and it power generation. To do this, let us take a closer look at the exact specifications of the array.
+
 \section{Data and Methods}\label{sec:methods}
 
 In this section, describe \emph{what you did}. Roughly speaking, explain what data you worked with, how or from where it was collected, it's structure and size. Explain your analysis, and any specific choices you made in it. Depending on the nature of your project, you may focus more or less on certain aspects. If you collected data yourself, explain the collection process in detail. If you downloaded data from the net, show an exploratory analysis that builds intuition for the data, and shows that you know the data well. If you are doing a custom analysis, explain how it works and why it is the right choice. If you are using a standard tool, it may still help to briefly outline it. Cite relevant works. You can use the \verb|\citep| and \verb|\citet| commands for this purpose \citep{mackay2003information}.
