@@ -65,7 +65,3 @@ final_df.rename(columns={"Gesamtanlage": "Gesamtanlage[kWh]"}, inplace=True)
 remove_colname_spaces(final_df)
 ## write dataset into a csv file
 final_df.to_csv("data/pv_weather_data_2019_to_2022.csv", sep=" ", index=False, columns=final_df.columns)
-
-# check df
-df = pd.read_csv("data/pv_weather_data_2019_to_2022.csv", sep=" ")
-print(df)
