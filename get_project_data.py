@@ -31,6 +31,15 @@ def get_weather_data(PATH):
     del df["QN_4"]
     return(df)
 
+# remove the spaces in the column names of the dataset
+def remove_colname_spaces(df):
+    column_names = []
+    for name in df.columns:
+        name = name.lstrip()
+        column_names.append(name)
+    df.columns = column_names
+
+
 ## get photovoltaik data
 # get pv data for year 2019
 df19 = get_pv_data("data/19-20.xlsx")
@@ -51,6 +60,10 @@ weather_df = get_weather_data("data/produkt_klima_tag_19540601_20221231_03379.tx
 ## Combine photovoltaik data and weather data to one dataset
 final_df = pd.concat([pv_df, weather_df], axis=1)
 final_df.rename(columns={"Gesamtanlage": "Gesamtanlage[kWh]"}, inplace=True)
+
+## remove spaces in column names
+remove_colname_spaces(final_df)
+## write dataset into a csv file
 final_df.to_csv("data/pv_weather_data_2019_to_2022.csv", sep=" ", index=False, columns=final_df.columns)
 
 # check df
