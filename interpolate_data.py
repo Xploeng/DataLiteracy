@@ -42,3 +42,9 @@ distances = np.array([22.02, 35.22, 59.90])
 SDK_interpolated = IDW_interpolation_all_values(distances, station_muenchen['SDK'], station_augsburg['SDK'], station_kaufbeuren['SDK'], power=1)
 RSK_interpolated = IDW_interpolation_all_values(distances, station_muenchen['RSK'], station_augsburg['RSK'], station_kaufbeuren['RSK'], power=1)
 TMK_interpolated = IDW_interpolation_all_values(distances, station_muenchen['TMK'], station_augsburg['TMK'], station_kaufbeuren['TMK'], power=1)
+
+df = pd.read_csv("data/pv_weather_data_2019_to_2022.csv", sep=" ")
+df['SDK'] = SDK_interpolated
+df['RSK'] = RSK_interpolated
+df['TMK'] = TMK_interpolated
+df.to_csv("data/interpolated_pv_weather_data_2019_to_2022.csv", sep=" ", index=False, columns=df.columns)
