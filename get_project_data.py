@@ -73,5 +73,4 @@ def combine_pv_and_weather_data():
 
 ## write dataset into a csv file
 #final_df = combine_pv_and_weather_data()
-#print(final_df)
 #final_df.to_csv("data/pv_weather_data_2019_to_2022.csv", sep=" ", index=False, columns=final_df.columns)
