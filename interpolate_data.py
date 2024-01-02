@@ -1,5 +1,6 @@
 import pandas as pd
 from get_project_data import get_weather_data
+import numpy as np
 
 ## Interpolate feature SDK = tägliche Sonnenscheindauer in h
 ## Get weather data from station 'München Stadt', Stations_id: 03379
