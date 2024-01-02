@@ -22,6 +22,12 @@ def get_weather_data(PATH, station_id):
     # extract years 2019-2022 from the dataset
     if station_id == '03379':
         df = df.iloc[23590:25051]
+    elif station_id == '02905':
+        df = df.iloc[17165:18626]
+    elif station_id == '00232':
+        df = df.iloc[26298:27759]
+    elif station_id == '15555':
+        df = df.iloc[975:2436]
     df.reset_index(inplace=True)
     # delete columns we don't need
     del df["index"]
