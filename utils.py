@@ -4,13 +4,17 @@ from suncalc import get_position, get_times
 import numpy as np
 import matplotlib.pyplot as plt
 
-def get_dataframe(type='csv', solar_noon_altitudes=False):
+def get_dataframe(type='csv', solar_noon_altitudes=False, interpolate_data=False):
     '''
     @type 'csv' | 'xlsx'
-    @solar_noon_altitudes default = True, determines wether to include solar/noon altitudes in df
+    @solar_noon_altitudes default = True, determines whether to include solar/noon altitudes in df
+    @interpolate_data default False, determines whether to use interpolated features SDK, RSK and TMK
     @return pv and weather data as pandas dataframe
     '''
-    df =  pd.read_csv("data/pv_weather_data_2019_to_2022."+ type, sep=" ")
+    if interpolate_data:
+        df =  pd.read_csv("data/interpolated_pv_weather_data_2019_to_2022."+ type, sep=" ")
+    else:
+        df =  pd.read_csv("data/pv_weather_data_2019_to_2022."+ type, sep=" ")
     if solar_noon_altitudes:
         df['Solar noon altitudes'] = _gen_solar_noon_altitudes(df)
         
