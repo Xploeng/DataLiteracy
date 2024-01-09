@@ -8,7 +8,7 @@ def get_pv_data(PATH):
     df.reset_index(inplace=True)
     del df["index"]
     # delete last row, which is the 1.1. of the next year, for leap year 2020 index of last row is 266, not 265
-    if(PATH == "data/20-21.xlsx"):
+    if(PATH == "raw_data/20-21.xlsx"):
         df = df.drop([366], axis=0)
     else:
         df = df.drop([365], axis=0)
@@ -51,20 +51,20 @@ def remove_colname_spaces(df):
 def combine_pv_and_weather_data():
     ## get photovoltaik data
     # get pv data for year 2019
-    df19 = get_pv_data("data/19-20.xlsx")
+    df19 = get_pv_data("data/raw_data/19-20.xlsx")
     # get pv data for year 2020, ATTENTION, 2020 was a schaltjahr with 366 days instead of 365
-    df20 = get_pv_data("data/20-21.xlsx")
+    df20 = get_pv_data("data/raw_data/20-21.xlsx")
     # get pv data for year 2021
-    df21 = get_pv_data("data/21-22.xlsx")
+    df21 = get_pv_data("data/raw_data/21-22.xlsx")
     # get pv data for year 2022
-    df22 = get_pv_data("data/22-23.xlsx")
+    df22 = get_pv_data("data/raw_data/22-23.xlsx")
     # combine all years to one dataset 
     pv_df = pd.concat([df19, df20, df21, df22])
     pv_df.reset_index(inplace=True)
     del pv_df["index"]
 
     ## Get weather data 
-    weather_df = get_weather_data("data/produkt_klima_tag_19540601_20221231_03379.txt", station_id='03379')
+    weather_df = get_weather_data("data/raw_data/produkt_klima_tag_19540601_20221231_03379.txt", station_id='03379')
 
     ## Combine photovoltaik data and weather data to one dataset
     final_df = pd.concat([pv_df, weather_df], axis=1)
@@ -72,5 +72,5 @@ def combine_pv_and_weather_data():
     return(final_df)
 
 ## write dataset into a csv file
-#final_df = combine_pv_and_weather_data()
-#final_df.to_csv("data/pv_weather_data_2019_to_2022.csv", sep=" ", index=False, columns=final_df.columns)
+final_df = combine_pv_and_weather_data()
+final_df.to_csv("data/pv_weather_data_2019_to_2022.csv", sep=" ", index=False, columns=final_df.columns)

@@ -3,6 +3,7 @@ import datetime
 from suncalc import get_position, get_times
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 def get_dataframe(type='csv', solar_noon_altitudes=False, interpolate_data=False):
     '''
@@ -12,9 +13,9 @@ def get_dataframe(type='csv', solar_noon_altitudes=False, interpolate_data=False
     @return pv and weather data as pandas dataframe
     '''
     if interpolate_data:
-        df =  pd.read_csv("data/interpolated_pv_weather_data_2019_to_2022."+ type, sep=" ")
+        df =  pd.read_csv("../data/interpolated_pv_weather_data_2019_to_2022."+ type, sep=" ")
     else:
-        df =  pd.read_csv("data/pv_weather_data_2019_to_2022."+ type, sep=" ")
+        df =  pd.read_csv("../data/pv_weather_data_2019_to_2022."+ type, sep=" ")
     if solar_noon_altitudes:
         df['Solar noon altitudes'] = _gen_solar_noon_altitudes(df)
         
@@ -80,7 +81,7 @@ def draw_scatter_plot(df, save=False, continuous=False, name='kWh-sunshine-scatt
     fig, ax = plt.subplots()
 
     
-    sc = plt.scatter(df[" SDK"], df["Gesamtanlage[kWh]"], c=color_gradient, cmap='jet')
+    sc = plt.scatter(df["SDK"], df["Gesamtanlage[kWh]"], c=color_gradient, cmap='jet')
 
     cbar = plt.colorbar(sc)
     cbar.ax.get_yaxis().set_ticks([])
@@ -93,5 +94,5 @@ def draw_scatter_plot(df, save=False, continuous=False, name='kWh-sunshine-scatt
     plt.ylabel("Electricity produced in kWh")
 
     if save:
-        plt.savefig("plots/" + name)
+        plt.savefig("report/fig/" + name)
     plt.show()
