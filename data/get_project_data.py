@@ -58,6 +58,8 @@ def combine_pv_and_weather_data():
     df21 = get_pv_data("data/raw_data/21-22.xlsx")
     # get pv data for year 2022
     df22 = get_pv_data("data/raw_data/22-23.xlsx")
+    # get pv data for year 2023
+    df23 = get_pv_data("data/raw_data/23-24.xlsx")
     # combine all years to one dataset 
     pv_df = pd.concat([df19, df20, df21, df22])
     pv_df.reset_index(inplace=True)
