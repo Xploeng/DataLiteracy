@@ -16,12 +16,25 @@ def IDW_interpolation_all_values(distances, station_1, station_2, station_3, pow
     interpolated_values = []
     i = 0
     while i < station_1.size:
-        if station_1[i] == -999.0:
+        if (station_1[i] == -999) and (station_2[i] == -999) and (station_3[i] == -999):
             station_1[i] = 0
-        if station_2[i] == -999.0:
             station_2[i] = 0
-        if station_3[i] == -999.0:
             station_3[i] = 0
+        if (station_1[i] == -999) and (station_2[i] == -999):
+            station_1[i] = station_3[i]
+            station_2[i] = station_3[i]
+        if (station_1[i] == -999) and (station_3[i] == -999):
+            station_1[i] = station_2[i]
+            station_3[i] = station_2[i]
+        if (station_2[i] == -999) and (station_3[i] == -999):
+            station_2[i] = station_1[i]
+            station_3[i] = station_1[i]
+        if station_1[i] == -999:
+            station_1[i] = (station_2[i] + station_3[i])/2
+        if station_2[i] == -999:
+            station_2[i] = (station_1[i] + station_3[i])/2
+        if station_3[i] == -999:
+            station_3[i] = (station_1[i] + station_2[i])/2
         feature_values = np.array([station_1[i], station_2[i], station_3[i]])
         interpolated_value = IDW_interpolation(distances, feature_values, power)
         interpolated_values.append(interpolated_value)
@@ -44,7 +57,16 @@ RSK_interpolated = IDW_interpolation_all_values(distances, station_muenchen['RSK
 TMK_interpolated = IDW_interpolation_all_values(distances, station_muenchen['TMK'], station_augsburg['TMK'], station_kaufbeuren['TMK'], power=1)
 
 df = pd.read_csv("data/pv_weather_data_2019_to_2022.csv", sep=" ")
+
 df['SDK'] = SDK_interpolated
 df['RSK'] = RSK_interpolated
 df['TMK'] = TMK_interpolated
+
 df.to_csv("data/interpolated_pv_weather_data_2019_to_2022.csv", sep=" ", index=False, columns=df.columns)
+
+# round data points 
+'''df['SDK'] = np.round(SDK_interpolated,2)
+df['RSK'] = np.round(RSK_interpolated,2)
+df['TMK'] = np.round(TMK_interpolated,2)
+print(df)'''
+#df.to_csv("data/rounded_pv_weather_data_2019_to_2022.csv", sep=" ", index=False, columns=df.columns)
