@@ -74,8 +74,6 @@ def draw_scatter_plot(df, save=False, continuous=False, name='kWh-sunshine-scatt
     assert(color_gradient[0* 365 + 20] == color_gradient[1* 365 + 20] == color_gradient[2* 365 + 21])
     assert(df["Datum und Uhrzeit"][0* 365 + 20][:5] == df["Datum und Uhrzeit"][1* 365 + 20][:5] == df["Datum und Uhrzeit"][2* 365 + 21][:5])
     
-        
-    
 
     # Plotting:
     fig, ax = plt.subplots()
@@ -96,3 +94,13 @@ def draw_scatter_plot(df, save=False, continuous=False, name='kWh-sunshine-scatt
     if save:
         plt.savefig("report/fig/" + name)
     plt.show()
+
+def get_astronomical_seasons(row):
+    if (row["Month"] == 11 and row["Day"] >= 7) or (row["Month"] == 1) or (row["Month"] == 12) or (row["Month"] == 2 and row["Day"] <= 4):
+        return "winter"
+    elif (row["Month"] == 2 and row["Day"] >= 5) or (row["Month"] == 3) or (row["Month"] == 4) or (row["Month"] == 5 and row["Day"] <= 5):
+        return "spring"
+    elif (row["Month"] == 5 and row["Day"] >= 6) or (row["Month"] == 6) or (row["Month"] == 7) or (row["Month"] == 8 and row["Day"] <= 7):
+        return "summer"
+    elif (row["Month"] == 8 and row["Day"] >= 8) or (row["Month"] == 9) or (row["Month"] == 10) or (row["Month"] == 11 and row["Day"] <= 6):
+        return "fall"
