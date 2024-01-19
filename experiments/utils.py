@@ -17,7 +17,7 @@ def get_dataframe(type='csv', solar_noon_altitudes=False, interpolate_data=False
     else:
         df =  pd.read_csv("../data/pv_weather_data_2019_to_2022."+ type, sep=" ")
     if solar_noon_altitudes:
-        df['Solar noon altitudes'] = _gen_solar_noon_altitudes(df)
+        df['SNA'] = _gen_solar_noon_altitudes(df)
         
     return df
 

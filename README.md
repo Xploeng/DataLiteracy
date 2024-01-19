@@ -26,3 +26,4 @@ project for data literacy module
 | TXK | Tagesmaximum der Lufttemperatur in 2m Höhe in °C
 | TNK | Tagesminimum der Lufttemperatur in 2m Höhe °C
 | TGK | Minimum der Lufttemperatur am Erdboden in 5cm Höhe in °C
+| SNA | Sonnenhöchststand in rad
