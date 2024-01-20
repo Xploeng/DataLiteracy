@@ -69,13 +69,36 @@ Put your abstract here. Abstracts typically start with a sentence motivating why
 	\item Intro: \begin{itemize}
 		\item what are we doing and why
 	\end{itemize}
+	\item Methods\begin{enumerate}
+		\item PV Cells 
+		\item Interpolation
+		\item Linear regression
+		\item Lasso
+	\end{enumerate}
 	\item Data explanation \begin{itemize}
 		\item DWD, stations and fields
 		\item data measurement, PV system setup
 	\end{itemize}
-	\item PV explanation and justify assumptions about weather influences
-	\item Data processing and validation, weather interpolation, sanity checks
-	\item What influences the PV production and why
+	\item Data sanity checks\begin{enumerate}
+		\item PVGIS general production
+		\item prod/h with manufacturer data\begin{itemize}
+			\item Assumption: only sun can produce electricity
+			\item show problems
+			\item cloudy hours produce sunlight
+			\item trying to model cloudy production
+			\item still inaccuracies other influences
+		\end{itemize}
+	\end{enumerate}
+	\item What influences the PV production\begin{enumerate}
+		\item Scatter
+		\item Solar Noon altitudes (what and why)
+	\end{enumerate}
+	\item Regression with Lasso\begin{enumerate}
+		\item General model with SNA as prominent feature
+		\item seasonal regression with better accuracy
+		\item explain influences technically
+		\item discussion aspects
+	\end{enumerate}
 \end{enumerate}
 
 \section{Introduction}\label{sec:intro}
@@ -88,19 +111,24 @@ The influences of location, angle and orientation are relatively clear and that'
 Using inverted distance weighting interpolation and linear regression we are able to determine the most crucial factors to electricity production.
 Since PV is well studied, none of these effects are unexpected for the system, and we give the physical explanations to the observed phenomenon.
 This work can be seen as a general study of photovoltaic technology on the basis of a single photovoltaic system. 
+\textbf{To-do: Explain achievements in this paper (explain the way from manufacturers data to actual measurements)}
 
+\section{Methods}
 \section{Data collection}
 We are using two different data sources. One source is the alternating-current converter of the PV system which measures the incoming electricity and makes the data available daily.
 This converter has been collecting data for the last 5 years. The device is called \textit{Symo 6.0-3-M} and is made by Fronius.
 The data on weather comes from the German weather service (Deutscher Wetter Dienst, DWD).\\
-\textbf{TODO Explain dataset}\\
+\textbf{To-do Explain dataset}\\
 \subsection{The PV system}
 The system we are investigating is located in Fürstenfeldbruck, Germany and is composed of 22 IBC MonoSol 310 VL5 solar panels \cite{MonoSol}.
 The array consists of 22 solar modules with a maximum power output (Pmax) of 310 Watts under standard testing conditions and 227.8 W  under Nominal Operating Cell Temperature (NOCT).
 It sits at 10$^\circ$ inclination, has an orientation of -110 $^\circ$ and elevation of 528 m.
+\begin{figure*}
+	\includegraphics{fig/outlier_scatter.pdf}
+	\caption{Test}
+\end{figure*}
 
-
-\section{Photovoltaic cells}\label{sec:pv}
+\subsection{Photovoltaic cells}\label{sec:pv}
 
 Photovoltaic cells, also called solar cells, are key parts of solar panels which are widely used for electricity production. They can be used in devices like pocket calculators or be strung together to power houses or form industrial solar farms.\\
 \begin{enumerate}
@@ -122,7 +150,7 @@ Photovoltaic cells, also called solar cells, are key parts of solar panels which
 \end{enumerate}
 The electrical circuit created by the solar cells can now be used just like any other. Solar cells include other building blocks like an anti-reflective surface, a protective glass screen and more. \citep{SolarCells}
 
-\section{Data and Methods}\label{sec:methods}
+\section{Data sanity checks}\label{sec:methods}
 
 %In this section, describe \emph{what you did}. Roughly speaking, explain what data you worked with, how or from where it was collected, it's structure and size. Explain your analysis, and any specific choices you made in it. Depending on the nature of your project, you may focus more or less on certain aspects. If you collected data yourself, explain the collection process in detail. If you downloaded data from the net, show an exploratory analysis that builds intuition for the data, and shows that you know the data well. If you are doing a custom analysis, explain how it works and why it is the right choice. If you are using a standard tool, it may still help to briefly outline it. Cite relevant works. You can use the \verb|\citep| and \verb|\citet| commands for this purpose \citep{mackay2003information}.
 
@@ -143,19 +171,17 @@ The electrical circuit created by the solar cells can now be used just like any 
 % \vskip -0.2in
 % \end{figure}
 
-\section{Results}\label{sec:results}
+\section{Analysis}
 
 %In this section outline your results. At this point, you are just stating the outcome of your analysis. You can highlight important aspects (``we observe a significantly higher value of $x$ over $y$''), but leave interpretation and opinion to the next section. This section absolutely \emph{has} to include at least two figures.
 
-\section{Discussion \& Conclusion}\label{sec:conclusion}
+\section{Conclusion}
 
 %Use this section to briefly summarize the entire text. Highlight limitations and problems, but also make clear statements where they are possible and supported by the analysis. 
 
 \section*{Contribution Statement}
 
 %Explain here, in one sentence per person, what each group member contributed. For example, you could write: Max Mustermann collected and prepared data. Gabi Musterfrau and John Doe performed the data analysis. Jane Doe produced visualizations. All authors will jointly wrote the text of the report. Note that you, as a group, a collectively responsible for the report. Your contributions should be roughly equal in amount and difficulty.
-
-\section*{Notes} 
 
 %Your entire report has a \textbf{hard page limit of 4 pages} excluding references. (I.e. any pages beyond page 4 must only contain references). Appendices are \emph{not} possible. But you can put additional material, like interactive visualizations or videos, on a GitHub repo (use \href{https://github.com/pnkraemer/tueplots}{links} in your PDF to refer to them). Each report has to contain \textbf{at least three plots or visualizations}, and \textbf{cite at least two references}. More details about how to prepare the report, including how to produce plots, cite correctly, and how to ideally structure your GitHub repo, will be discussed in the lecture, where a rubric for the evaluation will also be provided.
 
