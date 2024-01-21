@@ -47,7 +47,7 @@ station_muenchen = get_weather_data("data/raw_data/produkt_klima_tag_19540601_20
 # Get weather data from station 'Augsburg', Stations_id: 00232
 station_augsburg = get_weather_data('data/raw_data/produkt_klima_tag_19470101_20221231_00232.txt', station_id='00232')
 # Get weather data from station 'Kaufbeuren-Oberbeuren', Stations_id: 15555
-station_kaufbeuren = df = get_weather_data('data/raw_data/produkt_klima_tag_20160501_20221231_15555.txt', station_id='15555')
+station_kaufbeuren = get_weather_data('data/raw_data/produkt_klima_tag_20160501_20221231_15555.txt', station_id='15555')
 
 # distance array enthält entfernungen der stationen zum gesuchten punkt FFB: muenchen = 22.2km, augsburg = 35.22km, kaufbeuren-oberbeuren = 59.90km
 distances = np.array([22.02, 35.22, 59.90])
