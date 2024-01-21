@@ -116,7 +116,7 @@ This work can be seen as a general study of photovoltaic technology on the basis
 \section{Methods}
 \subsection{PV cells}
 \subsection{Inverse distance weighting}
-Inverse distance weighting (IDW) is an interpolation method commonly used for the interpolation of weather data, such as hours of sunshine, temperature and rainfall \cite{Loghmari2018} \cite{Cao2009} \cite{Chen2012}. It relies on the premise, that points close to an unmeasured location have more influence on the predictive outcome than those points with a greater distance. Consequently, when predicting the value for an unmeasured location, nearby points receive a higher weight during the interpolation than points that are further away. The IDW formula is defined as
+Inverse distance weighting (IDW) is an interpolation method commonly used for the interpolation of weather data, such as hours of sunshine, temperature and rainfall \cite{Loghmari2018} \cite{Cao2009} \cite{Chen2012}. It relies on the premise, that points close to an unmeasured location have more influence on the predictive outcome than those points with a greater distance \cite{Chen2012}. Consequently, when predicting the value for an unmeasured location, nearby points receive a higher weight during the interpolation than points that are further away. The IDW formula is defined as
 \begin{align}
     \^{Z} = \sum_{i=1}^N w_iR_i \\
     w_i = \frac{\frac{1}{d_i^\alpha}}{\sum_{i=1}^N \frac{1}{d_i^\alpha}}
