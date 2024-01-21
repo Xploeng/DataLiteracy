@@ -116,6 +116,11 @@ This work can be seen as a general study of photovoltaic technology on the basis
 \section{Methods}
 \subsection{PV cells}
 \subsection{Inverse distance weighting}
+Inverse distance weighting (IDW) is an interpolation method commonly used for the interpolation of weather data, such as hours of sunshine, temperature and rainfall \cite{Loghmari2018} \cite{Cao2009} \cite{Chen2012}. It relies on the premise, that points close to an unmeasured location have more influence on the predictive outcome than those points with a greater distance. Consequently, when predicting the value for an unmeasured location, nearby points receive a higher weight during the interpolation than points that are further away. The IDW formula is defined as
+\begin{align}
+    \^{Z} = \sum_{i=1}^N w_iR_i \\
+    w_i = \frac{\frac{1}{d_i^\alpha}}{\sum_{i=1}^N \frac{1}{d_i^\alpha}}
+\end{align} \cite{Chen2012}, where $\^{Z}$ is the unknown data point, $w_i$ is the weight for station i, $Z_i$ is the measured data of the location i, $d_i$ is the distance between the known location to the unknown data point and $\alpha$ stands for the power, which is the interpolation degree of the weight \cite{Loghmari2018}.
 \subsection{Linear Regression and Lasso}
 \section{Data collection}
 We are using two different data sources. One source is the alternating-current converter of the PV system which measures the incoming electricity and makes the data available daily.
