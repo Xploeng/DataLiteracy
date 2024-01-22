@@ -101,6 +101,7 @@ Put your abstract here. Abstracts typically start with a sentence motivating why
 	\end{enumerate}
 \end{enumerate}
 
+
 \section{Introduction}\label{sec:intro}
 %Motivate the problem, situation or topic you decided to work on. Describe why it matters (is it of societal, economic, scientific value?). Outline the rest of the paper (use references, e.g.~to \Cref{sec:methods}: What kind of data you are working with, how you analyze it, and what kind of conclusion you reached. The point of the introduction is to make the reader want to read the rest of the paper.
 More and more people put photovoltaic systems on their roofs. 
@@ -113,15 +114,22 @@ Since PV is well studied, none of these effects are unexpected for the system, a
 This work can be seen as a general study of photovoltaic technology on the basis of a single photovoltaic system. 
 \textbf{To-do: Explain achievements in this paper (explain the way from manufacturers data to actual measurements)}
 
+
 \section{Methods}
+
 \subsection{PV cells}
+
 \subsection{Inverse distance weighting}
 Inverse distance weighting (IDW) is an interpolation method commonly used for the interpolation of weather data, such as solar radiation, temperature and rainfall \cite{Loghmari2018} \cite{Cao2009} \cite{Chen2012}. It relies on the premise, that points close to an unmeasured location have more influence on the predictive outcome than those points with a greater distance \cite{Chen2012}. Consequently, nearby points receive a higher weight during the interpolation than points that are further away \cite{Lu2008}. The IDW formula is defined as
 \begin{align}
     \^{Z} = \sum_{i=1}^N w_iR_i \\
     w_i = \frac{\frac{1}{d_i^\alpha}}{\sum_{i=1}^N \frac{1}{d_i^\alpha}}
 \end{align} \cite{Chen2012}, where $\^{Z}$ is the unknown data point, $w_i$ is the weight for a station i, $Z_i$ is the measured data of a location i, $d_i$ is the distance between the known and unknown location and $\alpha$ is the power. A large $\alpha$ yields larger weights for the nearest points \cite{Lu2008}.
+
 \subsection{Linear Regression and Lasso}
+We assume familiarity with multiple linear regression. Lasso (acronym for least absolute shrinkage and selection operator) is a widely used regularization method. It penalizes large feature weights by incorporating the $L_1$-norm of the weight vector into the loss function: $$w = \underset{w}{\text{arg\,min}} \, \frac{1}{n} \|y - Xw\|_2^2 + \alpha \|w\|_1.$$ The advantage of linear regression with Lasso compared to standard linear regression or ridge regression is that it enforces sparsity of the weights. Hence, Lasso acts as a feature selection method and improves interpretability of the model, both of which are crucial aspects for our use case: Many of the weather features we obtained are highly correlated and we are aiming to find explanations for solar electricity production rather than finding an accurate model for predicting production based on weather conditions.
+
+
 \section{Data collection}
 We are using two different data sources. One source is the alternating-current converter of the PV system which measures the incoming electricity and makes the data available daily.
 This converter has been collecting data for the last 5 years. The device is called \textit{Symo 6.0-3-M} and is made by Fronius.
@@ -160,6 +168,8 @@ Photovoltaic cells, also called solar cells, are key parts of solar panels which
 The electrical circuit created by the solar cells can now be used just like any other. Solar cells include other building blocks like an anti-reflective surface, a protective glass screen and more. \citep{SolarCells}
 \subsection{Weather data}
 The DWD provides an open data area from the climate data center \cite{CDC}. For this project, we retrieved daily climate data from different weather stations in Germany for the years 2019 to 2022. The datasets include features like daily rainfall in mm (RF), daily duration of sunshine in hours (DS) and daily mean of the air-temperature at a height of 2 meters in °C (AT). For information on all features check the README.md file in the repository. \\ We chose three weather stations surrounding the PV system in Fürstenfeldbruck (48.1825, 11.2474). One station is located in Munich (48.1632, 11.5429), 22,2km away from the PV system, the second station is located in Augsburg (48.4253, 10.9417) with a distance of 35,22km and the third station is in Kaufbeuren-Oberbeuren (47.8761, 10.5849) which has a distance of 59,90km to the PV system. We set the power parameter $\alpha$ to 1 and interpolated the data using IDW to predict the weather data at the location of the PV system. We interpolated the three features RF, DS and AT for this project.
+
+
 \section{Data sanity checks}\label{sec:methods}
 
 %In this section, describe \emph{what you did}. Roughly speaking, explain what data you worked with, how or from where it was collected, it's structure and size. Explain your analysis, and any specific choices you made in it. Depending on the nature of your project, you may focus more or less on certain aspects. If you collected data yourself, explain the collection process in detail. If you downloaded data from the net, show an exploratory analysis that builds intuition for the data, and shows that you know the data well. If you are doing a custom analysis, explain how it works and why it is the right choice. If you are using a standard tool, it may still help to briefly outline it. Cite relevant works. You can use the \verb|\citep| and \verb|\citet| commands for this purpose \citep{mackay2003information}.
@@ -181,13 +191,16 @@ The DWD provides an open data area from the climate data center \cite{CDC}. For 
 % \vskip -0.2in
 % \end{figure}
 
+
 \section{Analysis}
 
 %In this section outline your results. At this point, you are just stating the outcome of your analysis. You can highlight important aspects (``we observe a significantly higher value of $x$ over $y$''), but leave interpretation and opinion to the next section. This section absolutely \emph{has} to include at least two figures.
 
+
 \section{Conclusion}
 
 %Use this section to briefly summarize the entire text. Highlight limitations and problems, but also make clear statements where they are possible and supported by the analysis. 
+
 
 \section*{Contribution Statement}
 
