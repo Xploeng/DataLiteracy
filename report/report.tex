@@ -116,11 +116,11 @@ This work can be seen as a general study of photovoltaic technology on the basis
 \section{Methods}
 \subsection{PV cells}
 \subsection{Inverse distance weighting}
-Inverse distance weighting (IDW) is an interpolation method commonly used for the interpolation of weather data, such as hours of sunshine, temperature and rainfall \cite{Loghmari2018} \cite{Cao2009} \cite{Chen2012}. It relies on the premise, that points close to an unmeasured location have more influence on the predictive outcome than those points with a greater distance \cite{Chen2012}. Consequently, when predicting the value for an unmeasured location, nearby points receive a higher weight during the interpolation than points that are further away. The IDW formula is defined as
+Inverse distance weighting (IDW) is an interpolation method commonly used for the interpolation of weather data, such as solar radiation, temperature and rainfall \cite{Loghmari2018} \cite{Cao2009} \cite{Chen2012}. It relies on the premise, that points close to an unmeasured location have more influence on the predictive outcome than those points with a greater distance \cite{Chen2012}. Consequently, nearby points receive a higher weight during the interpolation than points that are further away \cite{Lu2008}. The IDW formula is defined as
 \begin{align}
     \^{Z} = \sum_{i=1}^N w_iR_i \\
     w_i = \frac{\frac{1}{d_i^\alpha}}{\sum_{i=1}^N \frac{1}{d_i^\alpha}}
-\end{align} \cite{Chen2012}, where $\^{Z}$ is the unknown data point, $w_i$ is the weight for station i, $Z_i$ is the measured data of the location i, $d_i$ is the distance between the known location to the unknown data point and $\alpha$ stands for the power, which is the interpolation degree of the weight \cite{Loghmari2018}.
+\end{align} \cite{Chen2012}, where $\^{Z}$ is the unknown data point, $w_i$ is the weight for a station i, $Z_i$ is the measured data of a location i, $d_i$ is the distance between the known and unknown location and $\alpha$ is the power. A large $\alpha$ yields larger weights for the nearest points \cite{Lu2008}.
 \subsection{Linear Regression and Lasso}
 \section{Data collection}
 We are using two different data sources. One source is the alternating-current converter of the PV system which measures the incoming electricity and makes the data available daily.
@@ -139,6 +139,7 @@ It sits at 10$^\circ$ inclination, has an orientation of -110 $^\circ$ and eleva
 \subsection{Photovoltaic cells}\label{sec:pv}
 
 Photovoltaic cells, also called solar cells, are key parts of solar panels which are widely used for electricity production. They can be used in devices like pocket calculators or be strung together to power houses or form industrial solar farms.\\
+
 \begin{enumerate}
 	\item Basic structure: \begin{itemize}
 			\item solar cells are made of semiconductor materials, usually silicone
@@ -157,7 +158,8 @@ Photovoltaic cells, also called solar cells, are key parts of solar panels which
 	\end{itemize}
 \end{enumerate}
 The electrical circuit created by the solar cells can now be used just like any other. Solar cells include other building blocks like an anti-reflective surface, a protective glass screen and more. \citep{SolarCells}
-
+\subsection{Weather data}
+The DWD provides an open data area from the climate data center \cite{CDC}. For this project, we retrieved daily climate data from different weather stations in Germany for the years 2019 to 2022. The datasets include features like daily rainfall in mm (RF), daily duration of sunshine in hours (DS) and daily mean of the air-temperature at a height of 2 meters in °C (AT). For information on all features check the README.md file in the repository. \\ We chose three weather stations surrounding the PV system in Fürstenfeldbruck (48.1825, 11.2474). One station is located in Munich (48.1632, 11.5429), 22,2km away from the PV system, the second station is located in Augsburg (48.4253, 10.9417) with a distance of 35,22km and the third station is in Kaufbeuren-Oberbeuren (47.8761, 10.5849) which has a distance of 59,90km to the PV system. We set the power parameter $\alpha$ to 1 and interpolated the data using IDW to predict the weather data at the location of the PV system. We interpolated the three features RF, DS and AT for this project.
 \section{Data sanity checks}\label{sec:methods}
 
 %In this section, describe \emph{what you did}. Roughly speaking, explain what data you worked with, how or from where it was collected, it's structure and size. Explain your analysis, and any specific choices you made in it. Depending on the nature of your project, you may focus more or less on certain aspects. If you collected data yourself, explain the collection process in detail. If you downloaded data from the net, show an exploratory analysis that builds intuition for the data, and shows that you know the data well. If you are doing a custom analysis, explain how it works and why it is the right choice. If you are using a standard tool, it may still help to briefly outline it. Cite relevant works. You can use the \verb|\citep| and \verb|\citet| commands for this purpose \citep{mackay2003information}.
