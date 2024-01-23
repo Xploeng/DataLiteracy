@@ -11,7 +11,7 @@
 \begin{document}
 
 \twocolumn[
-\icmltitle{My Data Literacy Project\\ (Replace this with your Project Title)}
+\icmltitle{Influence of Weather Conditions on Solar Power Production}
 
 % It is OKAY to include author information, even for blind
 % submissions: the style file will automatically remove it for you
@@ -129,7 +129,11 @@ Inverse distance weighting (IDW) is an interpolation method commonly used for th
   A large $\alpha$ yields larger weights for the nearest points \cite{Lu2008}.
 
 \subsection{Linear Regression and Lasso}
-We assume familiarity with multiple linear regression. Lasso (acronym for least absolute shrinkage and selection operator) is a widely used regularization method. It penalizes large feature weights by incorporating the $L_1$-norm of the weight vector into the loss function: $$w = \underset{w}{\text{arg\,min}} \, \frac{1}{n} \|y - Xw\|_2^2 + \alpha \|w\|_1.$$ The advantage of linear regression with Lasso compared to standard linear regression or ridge regression is that it enforces sparsity of the weights. Hence, Lasso acts as a feature selection method and improves interpretability of the model, both of which are crucial aspects for our use case: Many of the weather features we obtained are highly correlated and we are aiming to find explanations for solar electricity production rather than finding an accurate model for predicting production based on weather conditions.
+We assume familiarity with multiple linear regression. Lasso (acronym for least absolute shrinkage and selection operator) is a widely used regularization method. It penalizes large feature weights by incorporating the $L_1$-norm of the weight vector into the loss function. Let $X$ be the feature matrix, where each column is standardized and let $y$ contain the centered values of the response variable. The Lasso chooses the weight vector $w$ according to
+\begin{equation*}
+	w = \underset{w}{\text{arg\,min}} \, \frac{1}{2n} \|y - Xw\|_2^2 + \alpha \|w\|_1.
+\end{equation*}
+The obtained model then maps a new input $x$ to $\langle x,w \rangle + \bar{y}$. The advantage of linear regression with Lasso compared to standard linear regression or ridge regression is that it enforces sparsity of the weights. Hence, Lasso acts as a feature selection method and improves interpretability of the model, both of which are crucial aspects for our use case: Many of the weather features we obtained are highly correlated and we are aiming to find explanations for solar electricity production rather than creating an accurate model for predicting production based on weather conditions.
 
 
 \section{Data collection}
