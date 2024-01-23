@@ -53,48 +53,6 @@ def _gen_solar_noon_altitudes(df):
 
     return solar_noon_altitudes
 
-def draw_scatter_plot(df, save=False, continuous=False, name='kWh-sunshine-scatter.png'):
-    n_days = len(df)
-    
-    color_gradient = []
-
-    if continuous:
-        for k in range(n_days):
-            if k > 365 + 59: # adjusts count to gap year
-                k -= 1
-            if k % 365 < np.ceil(365/2):
-                color_gradient.append(k % 365)
-            else:
-                color_gradient.append(365 - (k % 365))
-    else:
-        for k in range(n_days):
-            color_gradient.append(6 - np.abs(int(df["Datum und Uhrzeit"][k][3:5])-6))
-            
-    # Tests gap year calc
-    assert(color_gradient[0* 365 + 20] == color_gradient[1* 365 + 20] == color_gradient[2* 365 + 21])
-    assert(df["Datum und Uhrzeit"][0* 365 + 20][:5] == df["Datum und Uhrzeit"][1* 365 + 20][:5] == df["Datum und Uhrzeit"][2* 365 + 21][:5])
-    
-
-    # Plotting:
-    fig, ax = plt.subplots()
-
-    
-    sc = plt.scatter(df["SDK"], df["Gesamtanlage[kWh]"], c=color_gradient, cmap='jet')
-
-    cbar = plt.colorbar(sc)
-    cbar.ax.get_yaxis().set_ticks([])
-
-    for j, month in enumerate(['Dec','Nov/Jan','Oct/Feb','Sep/Mar','Aug/Apr','Jul/May','Jun']):
-        cbar.ax.text(1.5, j * color_gradient[30], month, ha='left', va='center')
-        #cbar.ax.text(1.5, 6/7*(j + .5), month, ha='left', va='center')
-
-    plt.xlabel("Hours of sunshine")
-    plt.ylabel("Electricity produced in kWh")
-
-    if save:
-        plt.savefig("report/fig/" + name)
-    plt.show()
-
 def get_astronomical_seasons(row):
     if (row["Month"] == 11 and row["Day"] >= 7) or (row["Month"] == 1) or (row["Month"] == 12) or (row["Month"] == 2 and row["Day"] <= 4):
         return "winter"
