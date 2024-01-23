@@ -186,6 +186,7 @@ cython_debug/
 .pdf
 report/*.pdf
 report/report_template.pdf
+report/fig/*.pdf
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl
 *.bcf
