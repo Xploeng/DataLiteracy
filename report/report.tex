@@ -122,9 +122,11 @@ This work can be seen as a general study of photovoltaic technology on the basis
 \subsection{Inverse distance weighting}
 Inverse distance weighting (IDW) is an interpolation method commonly used for the interpolation of weather data, such as solar radiation, temperature and rainfall \cite{Loghmari2018} \cite{Cao2009} \cite{Chen2012}. It relies on the premise, that points close to an unmeasured location have more influence on the predictive outcome than those points with a greater distance \cite{Chen2012}. Consequently, nearby points receive a higher weight during the interpolation than points that are further away \cite{Lu2008}. The IDW formula is defined as
 \begin{align}
-    \^{Z} = \sum_{i=1}^N w_iR_i \\
+    \hat{Z} = \sum_{i=1}^N w_iR_i \\
     w_i = \frac{\frac{1}{d_i^\alpha}}{\sum_{i=1}^N \frac{1}{d_i^\alpha}}
-\end{align} \cite{Chen2012}, where $\^{Z}$ is the unknown data point, $w_i$ is the weight for a station i, $Z_i$ is the measured data of a location i, $d_i$ is the distance between the known and unknown location and $\alpha$ is the power. A large $\alpha$ yields larger weights for the nearest points \cite{Lu2008}.
+\end{align} \cite{Chen2012},
+ where $\hat{Z}$ is the unknown data point, $w_i$ is the weight for a station i, $Z_i$ is the measured data of a location i, $d_i$ is the distance between the known and unknown location and $\alpha$ is the power.
+  A large $\alpha$ yields larger weights for the nearest points \cite{Lu2008}.
 
 \subsection{Linear Regression and Lasso}
 We assume familiarity with multiple linear regression. Lasso (acronym for least absolute shrinkage and selection operator) is a widely used regularization method. It penalizes large feature weights by incorporating the $L_1$-norm of the weight vector into the loss function: $$w = \underset{w}{\text{arg\,min}} \, \frac{1}{n} \|y - Xw\|_2^2 + \alpha \|w\|_1.$$ The advantage of linear regression with Lasso compared to standard linear regression or ridge regression is that it enforces sparsity of the weights. Hence, Lasso acts as a feature selection method and improves interpretability of the model, both of which are crucial aspects for our use case: Many of the weather features we obtained are highly correlated and we are aiming to find explanations for solar electricity production rather than finding an accurate model for predicting production based on weather conditions.
@@ -140,7 +142,7 @@ The system we are investigating is located in Fürstenfeldbruck, Germany and is 
 The array consists of 22 solar modules with a maximum power output (Pmax) of 310 Watts under standard testing conditions and 227.8 W  under Nominal Operating Cell Temperature (NOCT).
 It sits at 10$^\circ$ inclination, has an orientation of -110 $^\circ$ and elevation of 528 m.
 \begin{figure*}
-	\includegraphics{fig/outlier_scatter.pdf}
+	\includegraphics[draft]{fig/outlier_scatter.pdf}
 	\caption{Test}
 \end{figure*}
 
@@ -208,9 +210,8 @@ The DWD provides an open data area from the climate data center \cite{CDC}. For 
 
 %Your entire report has a \textbf{hard page limit of 4 pages} excluding references. (I.e. any pages beyond page 4 must only contain references). Appendices are \emph{not} possible. But you can put additional material, like interactive visualizations or videos, on a GitHub repo (use \href{https://github.com/pnkraemer/tueplots}{links} in your PDF to refer to them). Each report has to contain \textbf{at least three plots or visualizations}, and \textbf{cite at least two references}. More details about how to prepare the report, including how to produce plots, cite correctly, and how to ideally structure your GitHub repo, will be discussed in the lecture, where a rubric for the evaluation will also be provided.
 
-
-\bibliography{bibliography}
 \bibliographystyle{icml2023}
+\bibliography{bibliography}
 
 \end{document}
 
