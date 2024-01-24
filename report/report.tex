@@ -105,8 +105,8 @@ Put your abstract here. Abstracts typically start with a sentence motivating why
 \section{Introduction}\label{sec:intro}
 %Motivate the problem, situation or topic you decided to work on. Describe why it matters (is it of societal, economic, scientific value?). Outline the rest of the paper (use references, e.g.~to \Cref{sec:methods}: What kind of data you are working with, how you analyze it, and what kind of conclusion you reached. The point of the introduction is to make the reader want to read the rest of the paper.
 More and more people put photovoltaic systems on their roofs. 
-Most of these home systems are grid connected and people like to look at how much electricity they produce, consume and feed into the grid.
-In this work we want to do something similar. We are going to closely look at the electricity production of a single photovoltaic system and investigate how exactly these values are generated.
+Most of these home systems are grid connected and people like to examine how much electricity they produce, consume and feed into the grid. This depends on many different factors.
+In this work we are going to closely look at the electricity production of a single photovoltaic system and investigate how exactly these values are generated.
 It is a long way from the manufacturers data to the actual measurements and in the process we will see the influences of weather, angle and orientation of the system and its location.
 The influences of location, angle and orientation are relatively clear and that's why the main part of this work is to investigate the different weather influences.
 By using inverted distance weighting interpolation and linear regression we are able to determine the most crucial factors to electricity production.
@@ -120,13 +120,16 @@ This work can be seen as a general study of photovoltaic technology on the basis
 \subsection{PV cells}
 
 \subsection{Inverse distance weighting}
-Inverse distance weighting (IDW) is an interpolation method commonly used for the interpolation of weather data, such as solar radiation, temperature and rainfall \cite{Loghmari2018} \cite{Cao2009} \cite{Chen2012}. It relies on the premise, that points close to an unmeasured location have more influence on the predictive outcome than those points with a greater distance \cite{Chen2012}. Consequently, nearby points receive a higher weight during the interpolation than points that are further away \cite{Lu2008}. The IDW formula is defined as
+Inverse distance weighting (IDW) is an interpolation method commonly used for the interpolation of weather data, such as solar radiation, temperature and rainfall \cite{Loghmari2018} \cite{Cao2009} \cite{Chen2012}. 
+It relies on the premise, that points close to an unmeasured location have more influence on the predictive outcome than those points with a greater distance \cite{Chen2012}. 
+Consequently, nearby points receive a higher weight during the interpolation than points that are further away \cite{Lu2008}. 
+The IDW formula is defined as
 \begin{align}
     \hat{Z} = \sum_{i=1}^N w_iR_i \\
-    w_i = \frac{\frac{1}{d_i^\alpha}}{\sum_{i=1}^N \frac{1}{d_i^\alpha}}
+    w_i = \frac{d_i^{-\alpha}}{\sum_{i=1}^N{d_i^{-\alpha}}}
 \end{align} \cite{Chen2012},
- where $\hat{Z}$ is the unknown data point, $w_i$ is the weight for a station i, $Z_i$ is the measured data of a location i, $d_i$ is the distance between the known and unknown location and $\alpha$ is the power.
-  A large $\alpha$ yields larger weights for the nearest points \cite{Lu2008}.
+ where $\hat{Z}$ is the unknown data point, $w_i$ is the weight for a station i, $Z_i$ is the measured data of a location i, $d_i$ is the distance between the known and unknown location and $\alpha$ is the power. 
+ A large $\alpha$ yields larger weights for the nearest points \cite{Lu2008}.
 
 \subsection{Linear Regression and Lasso}
 We assume familiarity with multiple linear regression. Lasso (acronym for least absolute shrinkage and selection operator) is a widely used regularization method. It penalizes large feature weights by incorporating the $L_1$-norm of the weight vector into the loss function. Let $X$ be the feature matrix, where each column is standardized and let $y$ contain the centered values of the response variable. The Lasso chooses the weight vector $w$ according to
@@ -173,7 +176,7 @@ Photovoltaic cells, also called solar cells, are key parts of solar panels which
 \end{enumerate}
 The electrical circuit created by the solar cells can now be used just like any other. Solar cells include other building blocks like an anti-reflective surface, a protective glass screen and more. \citep{SolarCells}
 \subsection{Weather data}
-The DWD provides an open data area from the climate data center \cite{CDC}. For this project, we retrieved daily climate data from different weather stations in Germany for the years 2019 to 2022. The datasets include features like daily rainfall in mm (RF), daily duration of sunshine in hours (DS) and daily mean of the air-temperature at a height of 2 meters in °C (AT). For information on all features check the README.md file in the repository. \\ We chose three weather stations surrounding the PV system in Fürstenfeldbruck (48.1825, 11.2474). One station is located in Munich (48.1632, 11.5429), 22,2km away from the PV system, the second station is located in Augsburg (48.4253, 10.9417) with a distance of 35,22km and the third station is in Kaufbeuren-Oberbeuren (47.8761, 10.5849) which has a distance of 59,90km to the PV system. We set the power parameter $\alpha$ to 1 and interpolated the data using IDW to predict the weather data at the location of the PV system. We interpolated the three features RF, DS and AT for this project.
+The DWD provides an open data area from the climate data center \cite{CDC}. For this project, we retrieved daily climate data from different weather stations in Germany for the years 2019 to 2022. The datasets include features like daily rainfall in mm (RF), daily duration of sunshine in hours (DS) and daily mean of the air-temperature at a height of 2 meters in °C (AT). For information on all features check the README.md file in the repository. \\ We chose three weather stations surrounding the PV system in Fürstenfeldbruck (48.1825, 11.2474). One station is located in Munich (48.1632, 11.5429), 22,2km away from the PV system, the second station is located in Augsburg (48.4253, 10.9417) with a distance of 35,2km and the third station is in Kaufbeuren-Oberbeuren (47.8761, 10.5849) which has a distance of 59,9km to the PV system. We set the power parameter $\alpha$ to 1 and interpolated the data using IDW to predict the weather data at the location of the PV system. We interpolated the three features RF, DS and AT for this project.
 
 
 \section{Data sanity checks}\label{sec:methods}
