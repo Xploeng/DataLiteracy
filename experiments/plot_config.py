@@ -8,11 +8,11 @@ class config():
         'SNA' : 'Solar angle',
         'TMK' : 'mean temp',
         'TXK' : 'max temp',
-        'VPM' : 'vapor pressure',
+        'VPM' : 'vapor\n pressure',
         'RSK' : 'rain',
         'TNK' : 'min temp',
         'SHK_TAG' : 'snow',
-        'UPM' : 'mean humidity',}
+        'UPM' : 'mean\n humidity',}
     
     class plotting_params():
         dot_size = 10
