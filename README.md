@@ -10,20 +10,20 @@ project for data literacy module
 
 | Collumn | Description |
 | :--- | :--- |
-| Datum und Uhrzeit | Tag und Jahr an dem die Daten erfasst wurden
-| Gesamtanlage[kWh] | vom Photovoltaik Modul generierte Energie in kWh
-|FX | Tagesmaximum Windspitze in m/s (höchste Windgeschwindigkeit)
-| FM | Tagesmittel Windgeschwindigkeit in m/s
-| RSK | tägliche Niederschlagshöhe in mm
-| RSKF | Niederschlagsform in numerical code (0:kein Niederschlag, 4: Form nicht bekannt, obwohl Niederschlag gemeldet, 6: nur Regen, 7: nur Schnee, 8: Regen und Schnee, und/oder Schneeregen)
-| SDK | tägliche Sonnenscheindauer in h
-| SHK_TAG | Tageswert Schneehöhe in cm
-| NM | Tagesmittel des Bedeckungsgrades in 1/8 (= Bewölkungsgrad)(0/8: wolkenlos, 1/8 bis 3/8: leicht bewölkt, 4/8 bis 6/8: wolkig, 7/8: stark bewölkt, 8/8: bedeckt oder trüb)
-| VPM | Tagesmittel des Dampfdruckes in hPa
-| PM | Tagesmittel des Luftdrucks in hPa
-| TMK | Tagesmittel der Lufttemperatur in 2m Höhe in °C
-| UPM | Tagesmittel der relativen Feuchte in %
-| TXK | Tagesmaximum der Lufttemperatur in 2m Höhe in °C
-| TNK | Tagesminimum der Lufttemperatur in 2m Höhe °C
-| TGK | Minimum der Lufttemperatur am Erdboden in 5cm Höhe in °C
-| SNA | Sonnenhöchststand in rad
+| Datum und Uhrzeit | Year, day and time on which the data was collected
+| Gesamtanlage[kWh] | generated energy in kWh by the photovoltaik module
+|FX | daily maximum wind speed in m/s
+| FM | daily mean wind speed in m/s
+| RSK | daily precipitation/rainfall in mm
+| RSKF | form of precipitation in numerical code (0:no precipitation, 4: form not known, but precipitation was recorded , 6: only rain, 7: only snow, 8: rain and snow, and/or Sleet)
+| SDK | daily hours of sunshine in h
+| SHK_TAG | daily value of height of snow in cm
+| NM | daily value of cloud cover in 1/8 (= degree of cloudiness)(0/8: no clouds, 1/8 to 3/8: slightly cloudy, 4/8 to 6/8: cloudy, 7/8: very cloudy, 8/8: overcast)
+| VPM | daily value of vapor pressure in hPa
+| PM | daily mean of vapor pressure in hPa
+| TMK | daily mean of air temperature in 2m height in °C
+| UPM | daily mean of relative humidity in %
+| TXK | daily maximum of air temperature in 2m height in °C
+| TNK | daily minimum of air temperature in 2m height in °C
+| TGK | minimum of air temperature at the ground in 5cm height in °C
+| SNA | peak of sun altitude in rad
