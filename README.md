@@ -10,7 +10,7 @@ project for data literacy module
 
 | Collumn | Description |
 | :--- | :--- |
-| Datum und Uhrzeit | Day and Year on which the data was collected
+| Datum und Uhrzeit | Year, day and time on which the data was collected
 | Gesamtanlage[kWh] | generated energy in kWh by the photovoltaik module
 |FX | daily maximum wind speed in m/s
 | FM | daily mean wind speed in m/s
