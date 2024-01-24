@@ -115,7 +115,7 @@ This work can be seen as a general study of photovoltaic technology on the basis
 \textbf{To-do: Explain achievements in this paper (explain the way from manufacturers data to actual measurements)}
 
 
-\section{Methods}
+\section{Methodology}
 \subsection{Photovoltaic cells}\label{sec:pv}
 
 Photovoltaic cells, also called solar cells, are key parts of solar panels which are widely used for electricity production. They can be used in devices like pocket calculators or be strung together to power houses or form industrial solar farms.\\
@@ -173,8 +173,13 @@ It sits at 10$^\circ$ inclination, has an orientation of -110 $^\circ$ and eleva
 \end{figure*}
 
 \subsection{Weather data}
-The DWD provides an open data area from the climate data center \cite{CDC}. For this project, we retrieved daily climate data from different weather stations in Germany for the years 2019 to 2022. The datasets include features like daily rainfall in mm (RF), daily duration of sunshine in hours (DS) and daily mean of the air-temperature at a height of 2 meters in °C (AT). For information on all features check the README.md file in the repository. \\ We chose three weather stations surrounding the PV system in Fürstenfeldbruck (48.1825, 11.2474). One station is located in Munich (48.1632, 11.5429), 22,2km away from the PV system, the second station is located in Augsburg (48.4253, 10.9417) with a distance of 35,2km and the third station is in Kaufbeuren-Oberbeuren (47.8761, 10.5849) which has a distance of 59,9km to the PV system. We set the power parameter $\alpha$ to 1 and interpolated the data using IDW to predict the weather data at the location of the PV system. We interpolated the three features RF, DS and AT for this project.
-
+The DWD provides an open data area from the climate data center \cite{CDC}. 
+For this project, we retrieved daily climate data from different weather stations in Germany for the years 2019 to 2022. 
+The datasets include features like daily rainfall in mm (RF), daily duration of sunshine in hours (DS) and daily mean of the air-temperature at a height of 2 meters in °C (AT). 
+For information on all features check the README.md file in the repository. \\ 
+We created two datasets that can be used for analysis, one containing the data of one weather station located in Munich (48.1632, 11.5429) and one containing interpolated data. For the interpolation we chose three weather stations surrounding the PV system in Fürstenfeldbruck (48.1825, 11.2474). 
+One station is located in Munich (48.1632, 11.5429), 22,2km away from the PV system, the second station is located in Augsburg (48.4253, 10.9417) with a distance of 35,2km and the third station is in Kaufbeuren-Oberbeuren (47.8761, 10.5849) which has a distance of 59,9km to the PV system. 
+We set the power parameter $\alpha$ to 1 and interpolated the data using IDW to predict the weather data at the location of the PV system. We interpolated the three features RF, DS and AT for this project.
 
 \section{Data sanity checks}\label{sec:methods}
 
