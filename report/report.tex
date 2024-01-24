@@ -167,10 +167,7 @@ The data on weather comes from the German weather service (Deutscher Wetter Dien
 The system we are investigating is located in Fürstenfeldbruck, Germany and is composed of 22 IBC MonoSol 310 VL5 solar panels \cite{MonoSol}.
 The array consists of 22 solar modules with a maximum power output (Pmax) of 310 Watts under standard testing conditions and 227.8 W  under Nominal Operating Cell Temperature (NOCT).
 It sits at 10$^\circ$ inclination, has an orientation of -110 $^\circ$ and elevation of 528 m.
-\begin{figure*}
-	\includegraphics[draft]{fig/outlier_scatter.pdf}
-	\caption{Test}
-\end{figure*}
+
 
 \subsection{Weather data}
 The DWD provides an open data area from the climate data center \cite{CDC}. 
@@ -193,6 +190,11 @@ The PVGIS output provides an annual average PV production for the specified syst
 
 \subsection{Production per hour of sunshine}
 
+\begin{figure}
+	\includegraphics{fig/outlier_scatter.pdf}
+	\includegraphics{fig/prod_per_sunhour.pdf}
+\end{figure}
+
 The manufacturer of the PV system specifies an output of 0.31 kWh per module under optimal standard testing conditions (\textbf{CITE}). While real-world conditions rarely match these optimal standards and slightly higher production than the maximum peak is possible, they provide a reasonable threshold for comparison and sanity checks. Each day's total production is divided by the reported hours of sunshine and the number of modules, i.e. 22, resulting in energy production per module per hour of sunshine.
 
 This calculation yields a mean production of 0.37 kWh ± 1.85 kWh, appearing unrealistic when compared to the normal peak of 0.31 kWh, with particularly high variability between days. Further investigation focuses on 230 outlier days (out of 1461 total days) where production exceeds 0.31 kWh. The mean production on these outlier days is remarkably high, reaching 1.77 kWh, more than five times the maximum peak, with one day even reaching an implausible value of 38.18 kWh per hour. Analyzing the remaining days without outliers reveals a mean production of 0.11 kWh ± 0.07 kWh. This seems plausible, considering variations due to different weather conditions on different days and the expectation that most days have worse conditions than standard test conditions.
@@ -207,8 +209,25 @@ While many observations align with explanations, it is evident that the energy p
 
 
 \section{Analysis}
+\begin{figure}
+	\includegraphics{fig/scatter.pdf}
+	\caption{Scatter plot}
+\end{figure}
+\begin{figure}
+	\includegraphics{fig/regression.pdf}
+	\caption{Regression coefficients}
+\end{figure}
 
-
+\subsection*{Regression impact technical reason}
+\begin{itemize}
+	\item Sunshine: more sunshine more photons hitting the cells $\rightarrow$ more electricity
+	\item Angle: angle closer to 90$\circ$ means more photons hitting a smaller area. Which means more photons per square centimeter and more electricity
+	\item Snow: snow covers the solar modules and blocks light
+	\item Temperature: temperature has an effect on various parameters in solar cells, but increasing temperatures tend to decrease the overall performance \cite{SolarAndTemperature}
+	\item Vapor Pressure: related concepts
+	\item Humidity: Water vapor can absorb and scatter sunlight, affecting the irradiance. Humidity also affects the air temperature. 
+	Sufficient condensation of water on the cells leads to deposits of dirt and dust. \cite{SolarAndHumidity} investigates all of these effects and more
+\end{itemize}
 \section{Conclusion}
 
 \section*{Contribution Statement}
