@@ -5,7 +5,7 @@ class config():
         
     abbrevs={ 
         'SDK' : 'sunshine',
-        'SNA' : 'Solar angle',
+        'SNA' : 'solar angle',
         'TMK' : 'mean temp',
         'TXK' : 'max temp',
         'VPM' : 'vapor\n pressure',
