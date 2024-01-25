@@ -115,7 +115,7 @@ This work can be seen as a general study of photovoltaic technology on the basis
 \textbf{To-do: Explain achievements in this paper (explain the way from manufacturers data to actual measurements)}
 
 
-\section{Methods}
+\section{Methodology}
 \subsection{Photovoltaic cells}\label{sec:pv}
 
 Photovoltaic cells, also called solar cells, are key parts of solar panels which are widely used for electricity production. They can be used in devices like pocket calculators or be strung together to power houses or form industrial solar farms.\\
@@ -167,14 +167,16 @@ The data on weather comes from the German weather service (Deutscher Wetter Dien
 The system we are investigating is located in Fürstenfeldbruck, Germany and is composed of 22 IBC MonoSol 310 VL5 solar panels \cite{MonoSol}.
 The array consists of 22 solar modules with a maximum power output (Pmax) of 310 Watts under standard testing conditions and 227.8 W  under Nominal Operating Cell Temperature (NOCT).
 It sits at 10$^\circ$ inclination, has an orientation of -110 $^\circ$ and elevation of 528 m.
-\begin{figure*}
-	\includegraphics[draft]{fig/outlier_scatter.pdf}
-	\caption{Test}
-\end{figure*}
+
 
 \subsection{Weather data}
-The DWD provides an open data area from the climate data center \cite{CDC}. For this project, we retrieved daily climate data from different weather stations in Germany for the years 2019 to 2022. The datasets include features like daily rainfall in mm (RF), daily duration of sunshine in hours (DS) and daily mean of the air-temperature at a height of 2 meters in °C (AT). For information on all features check the README.md file in the repository. \\ We chose three weather stations surrounding the PV system in Fürstenfeldbruck (48.1825, 11.2474). One station is located in Munich (48.1632, 11.5429), 22,2km away from the PV system, the second station is located in Augsburg (48.4253, 10.9417) with a distance of 35,2km and the third station is in Kaufbeuren-Oberbeuren (47.8761, 10.5849) which has a distance of 59,9km to the PV system. We set the power parameter $\alpha$ to 1 and interpolated the data using IDW to predict the weather data at the location of the PV system. We interpolated the three features RF, DS and AT for this project.
-
+The DWD provides an open data area from the climate data center \cite{CDC}. 
+For this project, we retrieved daily climate data from different weather stations in Germany for the years 2019 to 2022. 
+The datasets include features like daily rainfall in mm, daily duration of sunshine in hours and daily mean of the air-temperature at a height of 2 meters in °C. 
+For information on all features check the README.md file in the repository. \\ 
+We created two datasets for the analysis, one containing the data of one weather station located in Munich (48.1632, 11.5429) and one containing interpolated data. For the interpolation we chose three weather stations surrounding the PV system in Fürstenfeldbruck (48.1825, 11.2474). 
+One station is located in Munich (48.1632, 11.5429), 22,2km away from the PV system, the second station is located in Augsburg (48.4253, 10.9417) with a distance of 35,2km and the third station is in Kaufbeuren-Oberbeuren (47.8761, 10.5849) which has a distance of 59,9km to the PV system. 
+We set the power parameter $\alpha$ to 1 and interpolated the data using IDW to predict the weather data at the location of the PV system. We interpolated the three features rainfall, hours of sunshine and temperature for this project.
 
 \section{Data sanity checks}\label{sec:methods}
 
@@ -188,6 +190,11 @@ The PVGIS output provides an annual average PV production for the specified syst
 
 \subsection{Production per hour of sunshine}
 
+\begin{figure}
+	\includegraphics{fig/outlier_scatter.pdf}
+	\includegraphics{fig/prod_per_sunhour.pdf}
+\end{figure}
+
 The manufacturer of the PV system specifies an output of 0.31 kWh per module under optimal standard testing conditions (\textbf{CITE}). While real-world conditions rarely match these optimal standards and slightly higher production than the maximum peak is possible, they provide a reasonable threshold for comparison and sanity checks. Each day's total production is divided by the reported hours of sunshine and the number of modules, i.e. 22, resulting in energy production per module per hour of sunshine.
 
 This calculation yields a mean production of 0.37 kWh ± 1.85 kWh, appearing unrealistic when compared to the normal peak of 0.31 kWh, with particularly high variability between days. Further investigation focuses on 230 outlier days (out of 1461 total days) where production exceeds 0.31 kWh. The mean production on these outlier days is remarkably high, reaching 1.77 kWh, more than five times the maximum peak, with one day even reaching an implausible value of 38.18 kWh per hour. Analyzing the remaining days without outliers reveals a mean production of 0.11 kWh ± 0.07 kWh. This seems plausible, considering variations due to different weather conditions on different days and the expectation that most days have worse conditions than standard test conditions.
@@ -200,41 +207,32 @@ A second aspect is that simply dividing total production by sunshine hours assum
 
 While many observations align with explanations, it is evident that the energy production by the PV system is a complex mixture beyond just sun and clouds. Peaks in production per hour can be attributed to inaccuracies and the neglect of cloud-induced production, although not every peak can be fully explained.
 
-%In this section, describe \emph{what you did}. Roughly speaking, explain what data you worked with, how or from where it was collected, it's structure and size. Explain your analysis, and any specific choices you made in it. Depending on the nature of your project, you may focus more or less on certain aspects. If you collected data yourself, explain the collection process in detail. If you downloaded data from the net, show an exploratory analysis that builds intuition for the data, and shows that you know the data well. If you are doing a custom analysis, explain how it works and why it is the right choice. If you are using a standard tool, it may still help to briefly outline it. Cite relevant works. You can use the \verb|\citep| and \verb|\citet| commands for this purpose \citep{mackay2003information}.
-
-% This is the template for a figure from the original ICML submission pack. In lecture 10 we will discuss plotting in detail.
-% Refer to this lecture on how to include figures in this text.
-% 
-% \begin{figure}[ht]
-% \vskip 0.2in
-% \begin{center}
-% \centerline{\includegraphics[width=\columnwidth]{icml_numpapers}}
-% \caption{Historical locations and number of accepted papers for International
-% Machine Learning Conferences (ICML 1993 -- ICML 2008) and International
-% Workshops on Machine Learning (ML 1988 -- ML 1992). At the time this figure was
-% produced, the number of accepted papers for ICML 2008 was unknown and instead
-% estimated.}
-% \label{icml-historical}
-% \end{center}
-% \vskip -0.2in
-% \end{figure}
-
 
 \section{Analysis}
+\begin{figure}
+	\includegraphics{fig/scatter.pdf}
+	\caption{Scatter plot}
+\end{figure}
+\begin{figure}
+	\includegraphics{fig/regression.pdf}
+	\caption{Regression coefficients}
+\end{figure}
 
-%In this section outline your results. At this point, you are just stating the outcome of your analysis. You can highlight important aspects (``we observe a significantly higher value of $x$ over $y$''), but leave interpretation and opinion to the next section. This section absolutely \emph{has} to include at least two figures.
-
-
+\subsection*{Regression impact technical reason}
+\begin{itemize}
+	\item Sunshine: more sunshine more photons hitting the cells $\rightarrow$ more electricity
+	\item Angle: angle closer to 90$\circ$ means more photons hitting a smaller area. Which means more photons per square centimeter and more electricity
+	\item Snow: snow covers the solar modules and blocks light
+	\item Temperature: temperature has an effect on various parameters in solar cells, but increasing temperatures tend to decrease the overall performance \cite{SolarAndTemperature}
+	\item Vapor Pressure: related concepts
+	\item Humidity: Water vapor can absorb and scatter sunlight, affecting the irradiance. Humidity also affects the air temperature. 
+	Sufficient condensation of water on the cells leads to deposits of dirt and dust. \cite{SolarAndHumidity} investigates all of these effects and more
+\end{itemize}
 \section{Conclusion}
-
-%Use this section to briefly summarize the entire text. Highlight limitations and problems, but also make clear statements where they are possible and supported by the analysis. 
-
 
 \section*{Contribution Statement}
 
 %Explain here, in one sentence per person, what each group member contributed. For example, you could write: Max Mustermann collected and prepared data. Gabi Musterfrau and John Doe performed the data analysis. Jane Doe produced visualizations. All authors will jointly wrote the text of the report. Note that you, as a group, a collectively responsible for the report. Your contributions should be roughly equal in amount and difficulty.
-
-%Your entire report has a \textbf{hard page limit of 4 pages} excluding references. (I.e. any pages beyond page 4 must only contain references). Appendices are \emph{not} possible. But you can put additional material, like interactive visualizations or videos, on a GitHub repo (use \href{https://github.com/pnkraemer/tueplots}{links} in your PDF to refer to them). Each report has to contain \textbf{at least three plots or visualizations}, and \textbf{cite at least two references}. More details about how to prepare the report, including how to produce plots, cite correctly, and how to ideally structure your GitHub repo, will be discussed in the lecture, where a rubric for the evaluation will also be provided.
 
 \bibliographystyle{icml2023}
 \bibliography{bibliography}
