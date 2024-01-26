@@ -3,6 +3,8 @@
 \documentclass{article}
 
 \usepackage[accepted]{icml2023}
+\usepackage{url}
+\def\UrlBreaks{\do\/\do-\do\&\do.\do:}
 
 % The \icmltitle you define below is probably too long as a header.
 % Therefore, a short form for the running title is supplied here:
@@ -73,7 +75,7 @@ Put your abstract here. Abstracts typically start with a sentence motivating why
 		\item PV Cells 
 		\item Interpolation
 		\item Linear regression
-		\item Lasso
+		\item LASSO
 	\end{enumerate}
 	\item Data explanation \begin{itemize}
 		\item DWD, stations and fields
@@ -93,7 +95,7 @@ Put your abstract here. Abstracts typically start with a sentence motivating why
 		\item Scatter
 		\item Solar Noon altitudes (what and why)
 	\end{enumerate}
-	\item Regression with Lasso\begin{enumerate}
+	\item Regression with LASSO\begin{enumerate}
 		\item General model with SNA as prominent feature
 		\item seasonal regression with better accuracy
 		\item explain influences technically
@@ -108,7 +110,7 @@ More and more people put photovoltaic systems on their roofs.
 Most of these home systems are grid connected and people like to examine how much electricity they produce, consume and feed into the grid. This depends on many different factors.
 In this work we are going to closely look at the electricity production of a single photovoltaic system and investigate how exactly these values are generated.
 It is a long way from the manufacturers data to the actual measurements and in the process we will see the influences of weather, angle and orientation of the system and its location.
-The influences of location, angle and orientation are relatively clear and that's why the main part of this work is to investigate the different weather influences.
+The influences of location, angle and orientation are relatively clear and that is why the main part of this work is to investigate the different weather influences.
 By using inverted distance weighting interpolation and linear regression we are able to determine the most crucial factors to electricity production.
 Since PV is well studied, none of these effects are unexpected for the system, and we give the physical explanations to the observed phenomenon.
 This work can be seen as a general study of photovoltaic technology on the basis of a single photovoltaic system. 
@@ -151,12 +153,13 @@ The IDW formula is defined as
  where $\hat{Z}$ is the unknown data point, $w_i$ is the weight for a station i, $Z_i$ is the measured data of a location i, $d_i$ is the distance between the known and unknown location and $\alpha$ is the power. 
  A large $\alpha$ yields larger weights for the nearest points \cite{Lu2008}.
 
-\subsection{Linear Regression and Lasso}
-We assume familiarity with multiple linear regression. Lasso (acronym for least absolute shrinkage and selection operator) is a widely used regularization method. It penalizes large feature weights by incorporating the $L_1$-norm of the weight vector into the loss function. Let $X$ be the feature matrix, where each column is standardized and let $y$ contain the centered values of the response variable. The Lasso chooses the weight vector $w$ according to
+\subsection{Linear regression and LASSO}
+We assume familiarity with multiple linear regression. LASSO (acronym for least absolute shrinkage and selection operator) is a widely used regularization method. It penalizes large feature weights by incorporating the $L_1$-norm of the weight vector into the loss function. Let $X$ be the feature matrix, where each column is standardized and let $y$ contain the centered values of the response variable. Choose $\alpha > 0$. The LASSO chooses the weight vector $w$ according to
 \begin{equation*}
 	w = \underset{w}{\text{arg\,min}} \, \frac{1}{2n} \|y - Xw\|_2^2 + \alpha \|w\|_1.
 \end{equation*}
-The obtained model then maps a new input $x$ to $\langle x,w \rangle + \bar{y}$. The advantage of linear regression with Lasso compared to standard linear regression or ridge regression is that it enforces sparsity of the weights. Hence, Lasso acts as a feature selection method and improves interpretability of the model, both of which are crucial aspects for our use case: Many of the weather features we obtained are highly correlated and we are aiming to find explanations for solar electricity production rather than creating an accurate model for predicting production based on weather conditions.
+Inputs x are then mapped to $\langle x, w \rangle + \bar{y}$ by the obtained model. The advantage of using linear regression with LASSO, as
+opposed to standard linear regression or ridge regression, is that it enforces sparsity of the weights. This means that LASSO acts as a feature selection method, which improves interpretability. This is crucial for our use case, since our goal is to find explanations for solar electricity production rather than creating an accurate model for predicting production based on weather conditions.
 
 
 \section{Data collection}
@@ -166,7 +169,7 @@ The data on weather comes from the German weather service (Deutscher Wetter Dien
 \subsection{The PV system}
 The system we are investigating is located in Fürstenfeldbruck, Germany and is composed of 22 IBC MonoSol 310 VL5 solar panels \cite{MonoSol}.
 The array consists of 22 solar modules with a maximum power output (Pmax) of 310 Watts under standard testing conditions and 227.8 W  under Nominal Operating Cell Temperature (NOCT).
-It sits at 10$^\circ$ inclination, has an orientation of -110 $^\circ$ and elevation of 528 m.
+It sits at 10° inclination, has an orientation of -110° and elevation of 528 m.
 
 
 \subsection{Weather data}
@@ -194,6 +197,7 @@ The annual production is within the estimated range ($6112.89$ kWh$ \pm 295.04$ 
 \end{figure}
 \begin{figure}
 	\includegraphics{fig/prod_per_sunhour.pdf}
+	\caption{TODO}
 \end{figure}
 
 The manufacturer of the PV system specifies an output of 0.31 kWh per module under optimal standard testing conditions (\textbf{CITE}). While real-world conditions rarely match these and slightly higher production than the maximum peak is possible, they provide a reasonable threshold for sanity checks. Therefore, we calculated the energy production per module per hour of sunshine for each day.
@@ -204,7 +208,7 @@ Possible explanations could be inaccurate weather data, resulting in too few sun
 
 
 \section{Analysis}
-To better understand what exactly influences power production of the analyzed PV system, we take a closer look at \ref{fig:outlier_scatter}. Instead of coloring days with implausible production per hour of sunshine, we group days by the month they lie in. Since (on the northern hemisphere) the summer solstice happens roughly in the middle of June, we use the same color for each pair of months that has the same “distance” to June.
+To gain a better understanding of the factors that influence power generation in the analyzed PV system, we take a closer look at \ref{fig:outlier_scatter}. Instead of coloring days with implausible production per hour of sunshine, we group days by the month they lie in. Since (on the northern hemisphere) the summer solstice happens roughly in the middle of June, the same color is assigned to each pair of months that are equidistant from June.
 
 \begin{figure}
 	\includegraphics{fig/scatter.pdf}
@@ -213,26 +217,28 @@ To better understand what exactly influences power production of the analyzed PV
 
 As anticipated, \ref{fig:scatter_months} shows that production per hour of sunshine is largest in May, June and July and smallest in November, December and January. North of the Tropic of Cancer the sun reaches its maximum height close to the June solstice, which always lies around June 21st. A larger solar angle results in more photons per area reaching earths surface and less solar radiation being absorbed by the atmosphere. Since the solar cells inclination is 10° and the maximum height of the sun is below 80° in Fürstenfeldbruck, the suns angle with respect to the solar cells is most favorable around the June solstice. The insight that larger solar angles increase power production motivates the introduction of solar noon altitudes as additional feature. The solar noon altitude for each day is defined as the altitude the sun reaches at solar noon, i.e. the maximum azimuth of the sun for each day.
 
-Using the solar noon altitudes and all quantitative attributes obtained from the DWD weather stations, we train a linear regression model. To increase interpretability and in hope of eliminating some of the highly correlated weather features, we use the LASSO with a relatively large regularization parameter of $\alpha = 0.5$. The fitted model has a mean squared error of 12.3 over the years 2019 to 2022. As can be seen in \ref{fig:predictions}, the models fluctuations are too high in winter and too low in summer.
+Using the solar noon altitudes and all quantitative attributes obtained from the DWD weather stations, we train a linear regression model. To increase interpretability and to eliminate some of the highly correlated weather features, we use the LASSO with a relatively large regularization parameter of $\alpha = 0.5$. The fitted model has a mean squared error of 12.3 over the years 2019 to 2022. As shown in \ref{fig:predictions}, the models fluctuations are too high in winter and too low in summer.
 
 \begin{figure}
 	\includegraphics{fig/predictions.pdf}
 	\caption{Fitted models}\label{fig:predictions}
 \end{figure}
 
-To mitigate this issue, we train four new linear regression models using the LASSO, one for each astronomical season. The astronomical seasons are defined via the duration of sunshine, see (METEOSWISS). As can be seen in \ref{fig:predictions}, the four models create a much better fit to the observed production data. This is also reflected in a reduced overall mean squared error of 7.5.
+To mitigate this problem, we train four new linear regression models using the LASSO, one for each astronomical season. The astronomical seasons are defined via the duration of sunshine, see \cite{MS}. As shown in \ref{fig:predictions}, the four models provide a significantly better fit to the observed production data, resulting in a reduced overall mean squared error of 7.5.
 
-\ref{fig:coefficients} depicts the learned feature weights of the four seasonal models. Features which received a weight of zero in each model are omitted. As expected, the sunshine duration has relatively large weights in all four models. In the summer model, the weight for the solar noon altitudes is much less dominant than in spring and fall. This could be caused by a much larger variability of the solar noon altitudes around the equinoxes in spring and fall. Our models suggest that mean humidity, as well as the related quantity vapor pressure, do have a negative impact on solar power production. This is likely caused by the fact that water vapor absorbs and scatters sunlight, reducing the irradiance. Increasing temperatures tend to decrease the efficiency of solar cells, as outlined in \cite{SolarAndTemperature}. Our models are unable to validate these findings. Perhaps the effects are not large enough and thwarted by the fact that high temperatures tend to correlate with intense irradiance.
+\ref{fig:coefficients} depicts the learned feature weights of the four seasonal models. Features which received a weight of zero in each model are omitted. As expected, the sunshine duration has relatively large weights in all four models. In the summer model, the weight for the solar noon altitudes is much less dominant than in spring and fall. This could be due to a much larger variability of the solar noon altitudes around the equinoxes in spring and fall. According to our models, mean humidity and vapor pressure do have a negative impact on solar power production. Water vapor absorbs and scatters sunlight, which reduces the irradiance. This phenomenon could explain the observed effect. Increasing temperatures tend to decrease the efficiency of solar cells, as outlined in \cite{SolarAndTemperature}. However, our models were unable to validate these findings. Perhaps the effects are not significant enough and are hindered by the fact that high temperatures tend to be correlated with high irradiance.
 
 \begin{figure}
 	\includegraphics{fig/regression.pdf}
-	\caption{Regression coefficients}\label{fig:coefficients}
+	\caption{Each model was trained using the LASSO with $\alpha = 0.5$ on all days which belong to the respective astronomical season and lie between 2019 and 2022.}\label{fig:coefficients}
 \end{figure}
+
+The main limitation of our models is that they assume linear relationships between weather features and solar power production. This is a significant simplification, which may explain the shortcomings of the model trained on all data discussed in the context of \ref{fig:predictions}.
 
 \subsection*{Regression impact technical reason}
 \begin{itemize}
 	\item Sunshine: more sunshine more photons hitting the cells $\rightarrow$ more electricity
-	\item Angle: angle closer to 90$\circ$ means more photons hitting a smaller area. Which means more photons per square centimeter and more electricity
+	\item Angle: angle closer to 90° means more photons hitting a smaller area. Which means more photons per square centimeter and more electricity
 	\item Snow: snow covers the solar modules and blocks light
 	\item Temperature: temperature has an effect on various parameters in solar cells, but increasing temperatures tend to decrease the overall performance \cite{SolarAndTemperature}
 	\item Vapor Pressure: related concepts
