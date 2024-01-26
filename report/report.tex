@@ -212,20 +212,23 @@ While many observations align with explanations, it is evident that the energy p
 
 
 \section{Analysis}
-To better understand what exactly influences power production of the analyzed PV system, we take a closer look at \ref{fig:outlier_scatter}. Instead of coloring days with implausible production per hour of sunshine, we group days by the month they lie in. Since (on the northern hemisphere) the summer solstice happens roughly in the middle of June, we use the same color for each pair of months that has the same "distance" to June.
+To better understand what exactly influences power production of the analyzed PV system, we take a closer look at \ref{fig:outlier_scatter}. Instead of coloring days with implausible production per hour of sunshine, we group days by the month they lie in. Since (on the northern hemisphere) the summer solstice happens roughly in the middle of June, we use the same color for each pair of months that has the same “distance” to June.
 
 \begin{figure}
 	\includegraphics{fig/scatter.pdf}
-	\caption{Scatter plot}\label{fig:scatter_months}\par\medskip
+	\caption{Scatter plot}\label{fig:scatter_months}
 \end{figure}
 
-As anticipated, \ref{fig:scatter_months} shows that production per hour of sunshine is largest in May, June and July and smallest in November, December and January. North of the Tropic of Cancer the maximum height of the sun is reached close to the June solstice, which always lies around June 21st. A larger solar angle results in more photons per area reaching earths surface and less solar radiation being absorbed by the atmosphere. Since the inclination of the solar cells is 10° and the maximum height of the sun is below 80° in Fürstenfeldbruck, the solar angle with respect to the solar cells is most favorable around the June solstice. The insight that larger solar angles increase power production motivates the introduction of solar noon altitudes as additional feature. The solar noon altitude for each day is defined as the altitude the sun reaches at solar noon, i.e. the maximum azimuth of the sun for each day.
+As anticipated, \ref{fig:scatter_months} shows that production per hour of sunshine is largest in May, June and July and smallest in November, December and January. North of the Tropic of Cancer the sun reaches its maximum height close to the June solstice, which always lies around June 21st. A larger solar angle results in more photons per area reaching earths surface and less solar radiation being absorbed by the atmosphere. Since the solar cells inclination is 10° and the maximum height of the sun is below 80° in Fürstenfeldbruck, the suns angle with respect to the solar cells is most favorable around the June solstice. The insight that larger solar angles increase power production motivates the introduction of solar noon altitudes as additional feature. The solar noon altitude for each day is defined as the altitude the sun reaches at solar noon, i.e. the maximum azimuth of the sun for each day.
 
-Using the solar noon altitudes and all quantitative attributes obtained from the DWD weather stations, we train a linear regression model. To increase interpretability and in hope of eliminating some of the highly correlated weather features, we use the LASSO with a relatively large regularization parameter of $\alpha = 0.5$. The fitted model has a mean squared error of 12.3 over the years 2019 to 2022. As can be seen in (FIGURE), the models fluctuations are too high in winter and too low in summer.
+Using the solar noon altitudes and all quantitative attributes obtained from the DWD weather stations, we train a linear regression model. To increase interpretability and in hope of eliminating some of the highly correlated weather features, we use the LASSO with a relatively large regularization parameter of $\alpha = 0.5$. The fitted model has a mean squared error of 12.3 over the years 2019 to 2022. As can be seen in \ref{fig:predictions}, the models fluctuations are too high in winter and too low in summer.
 
-(FIGURE)
+\begin{figure}
+	\includegraphics{fig/predictions.pdf}
+	\caption{Fitted models}\label{fig:predictions}
+\end{figure}
 
-To mitigate this issue, we train four new linear regression models using the LASSO, one for each astronomical season. The astronomical seasons are defined via the duration of sunshine, see (METEOSWISS). As can be seen in (FIGURE), the four models create a much better fit to the observed production data. This is also reflected in a reduced overall mean squared error of 7.5.
+To mitigate this issue, we train four new linear regression models using the LASSO, one for each astronomical season. The astronomical seasons are defined via the duration of sunshine, see (METEOSWISS). As can be seen in \ref{fig:predictions}, the four models create a much better fit to the observed production data. This is also reflected in a reduced overall mean squared error of 7.5.
 
 \ref{fig:coefficients} depicts the learned feature weights of the four seasonal models. Features which received a weight of zero in each model are omitted. As expected, the sunshine duration has relatively large weights in all four models. In the summer model, the weight for the solar noon altitudes is much less dominant than in spring and fall. This could be caused by a much larger variability of the solar noon altitudes around the equinoxes in spring and fall. Our models suggest that mean humidity, as well as the related quantity vapor pressure, do have a negative impact on solar power production. This is likely caused by the fact that water vapor absorbs and scatters sunlight, reducing the irradiance. Increasing temperatures tend to decrease the efficiency of solar cells, as outlined in \cite{SolarAndTemperature}. Our models are unable to validate these findings. Perhaps the effects are not large enough and thwarted by the fact that high temperatures tend to correlate with intense irradiance.
 
