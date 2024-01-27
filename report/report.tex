@@ -132,69 +132,58 @@ We set the power parameter $\alpha$ to 1 and interpolated the data using IDW to 
 
 \section{Data sanity checks}\label{sec:methods}
 
-\subsection{Comparison with expected energy production}
-
 We validated data plausibility by comparing it to estimates from the European Union's Photovoltaic Geographical Information System (PVGIS) (TODO: CITE). It is important to note that the data is collected at the inverter and does not represent the energy delivered to the grid. So it does not include inverter losses, and we took that into account in the system specification for the estimate.
 
 The annual production is within the estimated range ($6112.89$ kWh$ \pm 295.04$ kWh), except for 2022, where the production exceeded expectations. We attribute this to a sunnier year (\textbf{CITE}) which is also evident in our weather data. In winter, actual production is lower than the monthly estimates, likely due to snow covering the modules and blocking sunlight, and the fact that PVGIS does not model snow. In contrast, summer production exceeded estimates, but was in line with normal year-to-year variability due to weather conditions.
 
-\subsection{Production per hour of sunshine}
-
-\begin{figure}[H]
+\begin{figure}
 	\includegraphics{fig/outlier_scatter.pdf}
-	\caption{Outlier scatter plot}\label{fig:outlier_scatter}
+	\caption{Outlier days have a plausible total production in the lower to middle range of all days. They tend to occur on days with few hours of sunshine.}\label{fig:outlier_scatter}
 \end{figure}
-\begin{figure}[H]
+\begin{figure}
 	\includegraphics{fig/prod_per_sunhour.pdf}
-	\caption{Production per hour of sunshine}\label{fig:prod_per_sunhour}
+	\caption{Production per module per sunshine hour, with sunshine hours as bars in the background. Interpolation smoothes out some implausible spikes, but also results in new spikes.}\label{fig:prod_per_hour}
 \end{figure}
 
 The manufacturer of the PV system specifies an output of 0.31 kWh per module under optimal standard testing conditions (\textbf{CITE}). While real-world conditions rarely match these and slightly higher production than the maximum peak is possible, they provide a reasonable threshold for sanity checks. Therefore, we calculated the energy production per module per hour of sunshine for each day.
 
-This results in an unrealistic average with particularly high variability between days ($0.37$ kWh $\pm 1.85$ kWh). The average production per hour on the 230 days, that exceed the plausibility threshold of 0.31 kWh, is remarkably high at 1.77 kWh, while the total production on these days seems plausible. It can be observed that they tend to occur on days with few hours of sunshine. (\textbf{PLOT}).  The remaining non-outlier days have a mean (0.11 $\pm$ 0.07 kWh) within expectations, considering that most days have worse conditions than the standard test conditions. 
+For weather data from the Munich station, this results in an unrealistic average with particularly high variability between days ($0.37$ kWh $\pm 1.85$ kWh). The average production per hour on the 230 days, that exceed the plausibility threshold of 0.31 kWh, is remarkably high at 1.77 kWh, while the total production on these days seems plausible. It can be observed that they tend to occur on days with few hours of sunshine. (Figure \ref{fig:outlier_scatter}).  The remaining non-outlier days have a mean (0.11 $\pm$ 0.07 kWh) within expectations, considering that most days have worse conditions than the standard test conditions. 
 
-Possible explanations could be inaccurate weather data, resulting in too few sunshine hours, and neglecting possible energy production during cloud cover, resulting in an overestimation of sunlight production. To better estimate sun hours at the system's location we interpolated weather features using inverse distance weighting. While interpolation smooths out unrealistic spikes for some days, it does not consistently improve the problem because it also introduces new spikes. (\textbf{PLOT}). This may be because the additional weather stations are even farther away limiting their ability to accurately reflect the local weather. We modeled cloud-induced production in a very simplified way as the product of daylight hours and $5\%$ efficiency of maximum system production. This improved the problem for some days, but not all. It also showed that the estimate was too simplistic and probably overestimated cloud-induced production.
+Possible explanations could be inaccurate weather data, resulting in too few sunshine hours, and neglecting possible energy production during cloud cover, resulting in an overestimation of sunlight production. To better estimate sun hours at the system's location we interpolated weather features using inverse distance weighting. While interpolation smooths out unrealistic spikes for some days, it does not consistently improve the problem because it also introduces new spikes. (Figure \ref{fig:prod_per_hour}). This may be because the additional weather stations are even farther away limiting their ability to accurately reflect the local weather. We modeled cloud-induced production in a very simplified way as the product of daylight hours and $5\%$ efficiency of maximum system production. This improved the problem for some days, but not all. It also showed that the estimate was too simplistic and probably overestimated cloud-induced production.
 
 
 \section{Linear Regression Analysis}
 To gain a better understanding of the factors that influence power generation in the analyzed PV system, we take a closer look at \ref{fig:outlier_scatter}. Instead of coloring days with implausible production per hour of sunshine, we group days by the month they lie in. Since (on the northern hemisphere) the summer solstice happens roughly in the middle of June, the same color is assigned to each pair of months that are equidistant from June.
 
-\begin{figure}[H]
+\begin{figure}
 	\includegraphics{fig/scatter.pdf}
-	\caption{Scatter plot}\label{fig:scatter_months}
+	\caption{The total energy production depends not only on the hours of sunshine, but also strongly on the season of the month.}\label{fig:scatter_months}
 \end{figure}
 
 As anticipated, \ref{fig:scatter_months} shows that production per hour of sunshine is largest in May, June and July and smallest in November, December and January. North of the Tropic of Cancer the sun reaches its maximum height close to the June solstice, which always lies around June 21st. A larger solar angle results in more photons per area reaching earths surface and less solar radiation being absorbed by the atmosphere. Since the solar cells inclination is 10° and the maximum height of the sun is below 80° in Fürstenfeldbruck, the suns angle with respect to the solar cells is most favorable around the June solstice. The insight that larger solar angles increase power production motivates the introduction of solar noon altitudes as additional feature. The solar noon altitude for each day is defined as the altitude the sun reaches at solar noon, i.e. the maximum azimuth of the sun for each day.
 
 Using the solar noon altitudes and all quantitative attributes obtained from the DWD weather stations, we train a linear regression model. To increase interpretability and to eliminate some of the highly correlated weather features, we use the LASSO with a relatively large regularization parameter of $\alpha = 0.5$. The fitted model has a mean squared error of 12.3 over the years 2019 to 2022. As shown in \ref{fig:predictions}, the models fluctuations are too high in winter and too low in summer.
 
-\begin{figure}[H]
+\begin{figure}
 	\includegraphics{fig/predictions.pdf}
-	\caption{Fitted models}\label{fig:predictions}
+	\caption{Comparison of the prediction of the fitted models. Compared to the full year model, the seasonal fitting improves the prediction.}\label{fig:predictions}
 \end{figure}
 
 To mitigate this problem, we train four new linear regression models using the LASSO, one for each astronomical season. The astronomical seasons are defined via the duration of sunshine, see \cite{MS}. As shown in \ref{fig:predictions}, the four models provide a significantly better fit to the observed production data, resulting in a reduced overall mean squared error of 7.5.
-
-\ref{fig:coefficients} depicts the learned feature weights of the four seasonal models. Features which received a weight of zero in each model are omitted. As expected, the sunshine duration has relatively large weights in all four models. In the summer model, the weight for the solar noon altitudes is much less dominant than in spring and fall. This could be due to a much larger variability of the solar noon altitudes around the equinoxes in spring and fall. According to our models, mean humidity and vapor pressure do have a negative impact on solar power production. Water vapor absorbs and scatters sunlight, which reduces the irradiance. This phenomenon could explain the observed effect. Increasing temperatures tend to decrease the efficiency of solar cells, as outlined in \cite{SolarAndTemperature}. However, our models were unable to validate these findings. Perhaps the effects are not significant enough and are hindered by the fact that high temperatures tend to be correlated with high irradiance.
 
 \begin{figure}
 	\includegraphics{fig/regression.pdf}
 	\caption{Each model was trained using the LASSO with $\alpha = 0.5$ on all days which belong to the respective astronomical season and lie between 2019 and 2022.}\label{fig:coefficients}
 \end{figure}
 
-The main limitation of our models is that they assume linear relationships between weather features and solar power production. This is a significant simplification, which may explain the shortcomings of the model trained on all data discussed in the context of \ref{fig:predictions}.
+\subsection*{Regression factors in technical context}
 
-\subsection*{Regression impact technical reason}
-\begin{itemize}
-	\item Sunshine: more sunshine more photons hitting the cells $\rightarrow$ more electricity
-	\item Angle: angle closer to 90° means more photons hitting a smaller area. Which means more photons per square centimeter and more electricity
-	\item Snow: snow covers the solar modules and blocks light
-	\item Temperature: temperature has an effect on various parameters in solar cells, but increasing temperatures tend to decrease the overall performance \cite{SolarAndTemperature}
-	\item Vapor Pressure: related concepts
-	\item Humidity: Water vapor can absorb and scatter sunlight, affecting the irradiance. Humidity also affects the air temperature. 
-	Sufficient condensation of water on the cells leads to deposits of dirt and dust. \cite{SolarAndHumidity} investigates all of these effects and more
-\end{itemize}
+Figure \ref{fig:coefficients} depicts the learned feature weights of the four seasonal models. Features which received a weight of zero in each model are omitted. As expected, the sunshine duration has relatively large weights in all four models. The more sunshine, the more photons hit the cells and the more electricity is produced. A solar angle close to 90° means that more photons hit a smaller area, which means more photons per square centimeter and more electricity is produced. In the summer model, the weight for the solar noon altitudes is much less dominant than in spring and fall. This could be due to a much larger variability of the solar noon altitudes around the equinoxes in spring and fall. Snow covers the solar modules and blocks light, which can be seen as a negative weight in the winter and spring model. According to our models, mean humidity and vapor pressure do have a negative impact on solar power production. Water vapor absorbs and scatters sunlight, which reduces the irradiance. This phenomenon could explain the observed effect. Humidity also affects the air temperature and sufficient condensation of water on the cells leads to deposits of dirt and dust. Temperature has an effect on various parameters in solar cells, but increasing temperatures tend to decrease the overall performance \cite{SolarAndTemperature}. However, our models were unable to validate these findings. Perhaps the effects are not significant enough and are hindered by the fact that high temperatures tend to be correlated with high irradiance.
+
 \section{Conclusion}
+
+We have extracted the most important weather influences that affect the energy production of a photovoltaic system and explained them in the context of the technical peculiarities of solar modules. This is motivated by the complexity of how and when a PV system produces effectively and what to expect from the manufacturer's specifications. While many observations align with expectations and explanations, it is evident that the energy production by the PV system is a complex mixture beyond just sun and clouds. Peaks in production per hour can be attributed to inaccuracies and the neglect of cloud-induced production, although not every peak can be fully explained. The main limitation of our regression models is that they assume linear relationships between weather features and solar power production. This is a significant simplification, which may explain the shortcomings of the model trained on all data discussed in the context of Figure \ref{fig:predictions}.
+
 
 %Explain here, in one sentence per person, what each group member contributed. For example, you could write: Max Mustermann collected and prepared data. Gabi Musterfrau and John Doe performed the data analysis. Jane Doe produced visualizations. All authors will jointly wrote the text of the report. Note that you, as a group, a collectively responsible for the report. Your contributions should be roughly equal in amount and difficulty.
 \section*{Structure}
