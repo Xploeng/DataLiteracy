@@ -68,7 +68,7 @@ Put your abstract here. Abstracts typically start with a sentence motivating why
 
 \section{Introduction}\label{sec:intro}
 %Motivate the problem, situation or topic you decided to work on. Describe why it matters (is it of societal, economic, scientific value?). Outline the rest of the paper (use references, e.g.~to \Cref{sec:methods}: What kind of data you are working with, how you analyze it, and what kind of conclusion you reached. The point of the introduction is to make the reader want to read the rest of the paper.
-More and more people install photovoltaic systems on their roofs. 
+More and more people use renewable energy by installing photovoltaic systems on their roofs. 
 Most of these home systems are grid connected and the amount of produced and consumed electricity can be examined, as well as hoch much electricity is fed into the grid.
 This depends on many different factors.
 In this work we are going to closely look at the electricity production of a single photovoltaic system and investigate how exactly these values are generated.
@@ -81,29 +81,17 @@ This work can be seen as a general study of photovoltaic technology on the basis
 \section{Methodology}
 \subsection{Photovoltaic cells}\label{sec:pv}
 
-Photovoltaic cells, also called solar cells, are key parts of solar panels which are widely used for electricity production. They can be used in devices like pocket calculators or be strung together to power houses or form industrial solar farms.\\
-
-\begin{enumerate}
-	\item Basic structure: \begin{itemize}
-			\item solar cells are made of semiconductor materials, usually silicone
-			\item the cell contains two layers of silicone, one with excess electrons and the other with missing electrons called holes
-			\item the layers are therefore differently charged and form an electrical field
-	\end{itemize}
-	\item Photovoltaic effect: \begin{itemize}
-		\item When photons hit the semiconductor material in the solar cell, they can dislodge electrons
-		\item dislodged electrons leave a hole
-		\item the electrons and holes now move directed by the electrical field to opposite sides of the silicone layer
-	\end{itemize}
-	\item Generation of electric current \begin{itemize}
-		\item metal contacts are placed at both sides of the silicone and facilitate the electrical flow
-		\item the electrons at one side can now flow through the wire into the holes at the other side of the silicone
-		\item this creates an electrical circuit
-	\end{itemize}
-\end{enumerate}
-The electrical circuit created by the solar cells can now be used just like any other. Solar cells include other building blocks like an anti-reflective surface, a protective glass screen and more \citep{SolarCells}.
+Photovoltaic cells, also called solar cells, are key parts of solar panels which are widely used for electricity production. They can be used in devices like pocket calculators or be strung together to power houses or form industrial solar farms.
+\\
+\\
+% basic structure
+Solar cells are made of semiconductor materials, usually silicone. The cell contains two layers of silicone, one with excess electrons and the other with missing electrons, called holes. Thus, the layers are differently charged and form an electrical field. \\
+% photovoltaic effect 
+\\
+An essential phenomenon regarding photovoltaik cells is the photovoltaik effect. It describes the event of a photon hitting the semiconductor material in the solar cell and dislodging electrons in the process. The dislodged electrons leave a hole and the electrons and holes now move directed by the electrical field to opposite sides of the silicone layer. In order use this event to create an electric current, metal contacts are placed at both sides of the silicone and facilitate the electrical flow. The electrons at one side can now flow through the wire into the holes at the other side of the silicone, which creates an electrical circuit. Light energy has been transformed into electrical energy. Solar cells include other building blocks like an anti-reflective surface, a protective glass screen and more \citep{SolarCells}.
 
 \subsection{Inverse distance weighting}
-Inverse distance weighting (IDW) is an interpolation method commonly used for the interpolation of weather data, such as solar radiation \cite{Loghmari2018} , temperature \cite{Cao2009}  and rainfall \cite{Chen2012}. 
+Inverse distance weighting (IDW) is an interpolation method commonly used for the interpolation of weather data, such as solar radiation \cite{Loghmari2018}, temperature \cite{Cao2009} and rainfall \cite{Chen2012}. 
 It relies on the premise, that points close to an unmeasured location have more influence on the predictive outcome than those points with a greater distance \cite{Chen2012}. 
 Consequently, nearby points receive a higher weight during the interpolation than points that are further away \cite{Lu2008}. 
 The IDW formula is defined as
@@ -115,7 +103,7 @@ The IDW formula is defined as
  A large $\alpha$ yields larger weights for the nearest points \cite{Lu2008}.
 
 \subsection{Linear regression and LASSO}
-We assume familiarity with multiple linear regression. LASSO (acronym for least absolute shrinkage and selection operator) is a widely used regularization method. It penalizes large feature weights by incorporating the $L_1$-norm of the weight vector into the loss function. Let $X$ be the feature matrix, where each column is standardized and let $y$ contain the centered values of the response variable. Choose $\alpha > 0$. The LASSO chooses the weight vector $w$ according to
+We assume familiarity with multiple linear regression. The least absolute shrinkage and selection operator (LASSO) is a widely used regularization method. It penalizes large feature weights by incorporating the $L_1$-norm of the weight vector into the loss function. Let $X$ be the feature matrix, where each column is standardized and let $y$ contain the centered values of the response variable. Choose $\alpha > 0$. The LASSO chooses the weight vector $w$ according to
 \begin{equation*}
 	w = \underset{w}{\text{arg\,min}} \, \frac{1}{2n} \|y - Xw\|_2^2 + \alpha \|w\|_1.
 \end{equation*}
@@ -138,8 +126,9 @@ The DWD provides an open data area from the climate data center \cite{CDC}.
 For this project, we retrieved daily climate data from different weather stations in Germany for the years 2019 to 2022. 
 The datasets include features like daily rainfall in mm, daily duration of sunshine in hours and daily mean of the air-temperature at a height of 2 meters in °C. 
 For information on all features check the README.md file in the repository. \\ 
-We created two datasets for the analysis, one containing the data of one weather station located in Munich (48.1632, 11.5429) and one containing interpolated data. For the interpolation we chose three weather stations surrounding the PV system in Fürstenfeldbruck (48.1825, 11.2474). 
-One station is located in Munich (48.1632, 11.5429), 22,2km away from the PV system, the second station is located in Augsburg (48.4253, 10.9417) with a distance of 35,2km and the third station is in Kaufbeuren-Oberbeuren (47.8761, 10.5849) which has a distance of 59,9km to the PV system. 
+\\
+We use two datasets for the analysis, one containing the data of one weather station located in Munich (48.1632, 11.5429) and one containing interpolated data. For the interpolation we chose three weather stations surrounding the PV system in Fürstenfeldbruck (48.1825, 11.2474). 
+One station is located in Munich (48.1632, 11.5429), 22,2km away from the PV system, the second station is located in Augsburg (48.4253, 10.9417) with a distance of 35,2km and the third station is in Kaufbeuren-Oberbeuren (47.8761, 10.5849), which has a distance of 59,9km to the PV system. 
 We set the power parameter $\alpha$ to 1 and interpolated the data using IDW to predict the weather data at the location of the PV system. We interpolated the three features rainfall, hours of sunshine and temperature for this project.
 
 \section{Data sanity checks}\label{sec:methods}
@@ -152,13 +141,13 @@ The annual production is within the estimated range ($6112.89$ kWh$ \pm 295.04$ 
 
 \subsection{Production per hour of sunshine}
 
-\begin{figure}
+\begin{figure}[H]
 	\includegraphics{fig/outlier_scatter.pdf}
 	\caption{Outlier scatter plot}\label{fig:outlier_scatter}
 \end{figure}
-\begin{figure}
+\begin{figure}[H]
 	\includegraphics{fig/prod_per_sunhour.pdf}
-	\caption{TODO}
+	\caption{Production per hour of sunshine}\label{fig:prod_per_sunhour}
 \end{figure}
 
 The manufacturer of the PV system specifies an output of 0.31 kWh per module under optimal standard testing conditions (\textbf{CITE}). While real-world conditions rarely match these and slightly higher production than the maximum peak is possible, they provide a reasonable threshold for sanity checks. Therefore, we calculated the energy production per module per hour of sunshine for each day.
@@ -171,7 +160,7 @@ Possible explanations could be inaccurate weather data, resulting in too few sun
 \section{Analysis}
 To gain a better understanding of the factors that influence power generation in the analyzed PV system, we take a closer look at \ref{fig:outlier_scatter}. Instead of coloring days with implausible production per hour of sunshine, we group days by the month they lie in. Since (on the northern hemisphere) the summer solstice happens roughly in the middle of June, the same color is assigned to each pair of months that are equidistant from June.
 
-\begin{figure}
+\begin{figure}[H]
 	\includegraphics{fig/scatter.pdf}
 	\caption{Scatter plot}\label{fig:scatter_months}
 \end{figure}
@@ -180,7 +169,7 @@ As anticipated, \ref{fig:scatter_months} shows that production per hour of sunsh
 
 Using the solar noon altitudes and all quantitative attributes obtained from the DWD weather stations, we train a linear regression model. To increase interpretability and to eliminate some of the highly correlated weather features, we use the LASSO with a relatively large regularization parameter of $\alpha = 0.5$. The fitted model has a mean squared error of 12.3 over the years 2019 to 2022. As shown in \ref{fig:predictions}, the models fluctuations are too high in winter and too low in summer.
 
-\begin{figure}
+\begin{figure}[H]
 	\includegraphics{fig/predictions.pdf}
 	\caption{Fitted models}\label{fig:predictions}
 \end{figure}
