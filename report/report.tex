@@ -157,7 +157,7 @@ Using the solar noon altitudes and all quantitative attributes obtained from the
 	\caption{Comparison of the prediction of the fitted models. Compared to the full year model, the seasonal fitting improves the prediction.}\label{fig:predictions}
 \end{figure}
 
-To mitigate this problem, we train four new linear regression models using the LASSO, one for each astronomical season. The astronomical seasons are defined via the duration of sunshine, see \cite{MS}. As shown in Figure \ref{fig:predictions}, the four models provide a significantly better fit to the observed production data, resulting in a reduced overall mean squared error of 7.5.
+To mitigate this problem, we train four new linear regression models using the LASSO, one for each astronomical season. The astronomical seasons are defined via the duration of sunshine \cite{MS}. The four models provide a significantly better fit to the observed production data (Figure \ref{fig:predictions}), resulting in a reduced overall mean squared error of 7.5.
 
 \begin{figure}
 	\includegraphics{fig/regression.pdf}
