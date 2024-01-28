@@ -125,7 +125,9 @@ We set the power parameter $\alpha$ to 1 and interpolated the data using IDW to 
 
 We validated data plausibility by comparing it to estimates from the European Union's Photovoltaic Geographical Information System (PVGIS) \cite{PVGIS}. It is important to note that the data is collected at the inverter and does not represent the energy delivered to the grid. So it does not include inverter losses, and we took that into account in the system specification for the estimate.
 
-The annual production is within the estimated range ($6112.89$ kWh$ \pm 295.04$ kWh), except for 2022, where the production exceeded expectations. We attribute this to a sunnier year \citep{DWD2022} which is also evident in our weather data. In winter, actual production is lower than the monthly estimates, likely due to snow covering the modules and blocking sunlight, and the fact that PVGIS does not model snow. In contrast, summer production exceeded estimates, but was in line with normal year-to-year variability due to weather conditions.
+The annual production is within the estimated range ($6112.89$ kWh$ \pm 295.04$ kWh), except for 2022, where the production exceeded expectations. We attribute this to a sunnier year \citep{DWD2022} which is also evident in our weather data. In winter, actual production is lower than the monthly estimates, likely due to snow covering the modules and blocking sunlight, and the fact that PVGIS does not model snow. In contrast, summer production exceeded estimates, but was in line with normal year-to-year variability due to weather conditions. 
+
+The manufacturer of the PV system specifies an output of 0.31 kWh per module under optimal standard testing conditions \citep{MonoSol}. While real-world conditions rarely match these and slightly higher production than the maximum peak is possible, they provide a reasonable threshold for sanity checks. Therefore, we calculated the energy production per module per hour of sunshine for each day.
 
 \begin{figure}[H]
 	\includegraphics{fig/outlier_scatter.pdf}
@@ -136,12 +138,9 @@ The annual production is within the estimated range ($6112.89$ kWh$ \pm 295.04$ 
 	\caption{Production per module per sunshine hour, with sunshine hours as bars in the background. Interpolation smoothes out some implausible spikes, but also results in new spikes.}\label{fig:prod_per_hour}
 \end{figure}
 
-The manufacturer of the PV system specifies an output of 0.31 kWh per module under optimal standard testing conditions \citep{MonoSol}. While real-world conditions rarely match these and slightly higher production than the maximum peak is possible, they provide a reasonable threshold for sanity checks. Therefore, we calculated the energy production per module per hour of sunshine for each day.
-
 For weather data from the Munich station, this results in an unrealistic average with particularly high variability between days ($0.37$ kWh $\pm 1.85$ kWh). The average production per hour on the 230 days, that exceed the plausibility threshold of 0.31 kWh, is remarkably high at 1.77 kWh, while the total production on these days seems plausible. It can be observed that they tend to occur on days with few hours of sunshine. (Figure \ref{fig:outlier_scatter}).  The remaining non-outlier days have a mean (0.11 $\pm$ 0.07 kWh) within expectations, considering that most days have worse conditions than the standard test conditions. 
 
 Possible explanations could be inaccurate weather data, resulting in too few sunshine hours, and neglecting possible energy production during cloud cover, resulting in an overestimation of sunlight production. To better estimate sun hours at the system's location we interpolated weather features using inverse distance weighting. While interpolation smooths out unrealistic spikes for some days, it does not consistently improve the problem because it also introduces new spikes. (Figure \ref{fig:prod_per_hour}). This may be because the additional weather stations are even farther away limiting their ability to accurately reflect the local weather. We modeled cloud-induced production in a very simplified way as the product of daylight hours and $5\%$ efficiency of maximum system production. This improved the problem for some days, but not all. It also showed that the estimate was too simplistic and probably overestimated cloud-induced production.
-
 
 \section{Linear Regression Analysis}
 To better understand the influencing factors, we further examine power production and sunshine hours with days grouped by month (Figure \ref{fig:scatter_months}). Since (on the northern hemisphere) the summer solstice happens roughly in the middle of June, the same color is assigned to each pair of months that are equidistant from June. The production per hour of sunshine is largest in May, June and July and smallest in November, December and January. At a larger solar angle, more electricity can be produced because more photons per area reach the earth's surface and less solar radiation is absorbed by the atmosphere. For this pv system the angle is most favorable around the June solstice. This motivates the introduction of solar noon altitudes as additional feature. The solar noon altitude for each day is defined as the altitude the sun reaches at solar noon, i.e. the maximum azimuth of the sun for each day. 
@@ -153,7 +152,7 @@ To better understand the influencing factors, we further examine power productio
 
 Using the solar noon altitudes and all quantitative attributes obtained from the DWD weather stations, we train a linear regression model. In order to eliminate some of the highly correlated weather features, we use the LASSO with a relatively large regularization parameter of $\alpha = 0.5$. The fitted model has a mean squared error of 12.3 over the years 2019 to 2022. As shown in Figure \ref{fig:predictions}, the models fluctuations are too high in winter and too low in summer.
 
-\begin{figure}
+\begin{figure}[H]
 	\includegraphics{fig/predictions.pdf}
 	\caption{Comparison of the prediction of the fitted models. Compared to the full year model, the seasonal fitting improves the prediction.}\label{fig:predictions}
 \end{figure}
