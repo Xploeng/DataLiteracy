@@ -128,11 +128,11 @@ We use two datasets for the analysis, one containing the data of one weather sta
 One station is located in Munich (48.1632, 11.5429), 22,2km away from the PV system, the second station is located in Augsburg (48.4253, 10.9417) with a distance of 35,2km and the third station is in Kaufbeuren-Oberbeuren (47.8761, 10.5849), which has a distance of 59,9km to the PV system. 
 We set the power parameter $\alpha$ to 1 and interpolated the data using IDW to predict the weather data at the location of the PV system. We interpolated the three features rainfall, hours of sunshine and temperature for this project.
 
-\section{Data sanity checks}\label{sec:methods}
+\section{Expected power production}\label{sec:methods}
 
-We validated data plausibility by comparing it to estimates from the European Union's Photovoltaic Geographical Information System (PVGIS) (TODO: CITE). It is important to note that the data is collected at the inverter and does not represent the energy delivered to the grid. So it does not include inverter losses, and we took that into account in the system specification for the estimate.
+We validated data plausibility by comparing it to estimates from the European Union's Photovoltaic Geographical Information System (PVGIS) \cite{PVGIS}. It is important to note that the data is collected at the inverter and does not represent the energy delivered to the grid. So it does not include inverter losses, and we took that into account in the system specification for the estimate.
 
-The annual production is within the estimated range ($6112.89$ kWh$ \pm 295.04$ kWh), except for 2022, where the production exceeded expectations. We attribute this to a sunnier year (\textbf{CITE}) which is also evident in our weather data. In winter, actual production is lower than the monthly estimates, likely due to snow covering the modules and blocking sunlight, and the fact that PVGIS does not model snow. In contrast, summer production exceeded estimates, but was in line with normal year-to-year variability due to weather conditions.
+The annual production is within the estimated range ($6112.89$ kWh$ \pm 295.04$ kWh), except for 2022, where the production exceeded expectations. We attribute this to a sunnier year \citep{DWD2022} which is also evident in our weather data. In winter, actual production is lower than the monthly estimates, likely due to snow covering the modules and blocking sunlight, and the fact that PVGIS does not model snow. In contrast, summer production exceeded estimates, but was in line with normal year-to-year variability due to weather conditions.
 
 \begin{figure}[H]
 	\includegraphics{fig/outlier_scatter.pdf}
@@ -143,7 +143,7 @@ The annual production is within the estimated range ($6112.89$ kWh$ \pm 295.04$ 
 	\caption{Production per module per sunshine hour, with sunshine hours as bars in the background. Interpolation smoothes out some implausible spikes, but also results in new spikes.}\label{fig:prod_per_hour}
 \end{figure}
 
-The manufacturer of the PV system specifies an output of 0.31 kWh per module under optimal standard testing conditions (\textbf{CITE}). While real-world conditions rarely match these and slightly higher production than the maximum peak is possible, they provide a reasonable threshold for sanity checks. Therefore, we calculated the energy production per module per hour of sunshine for each day.
+The manufacturer of the PV system specifies an output of 0.31 kWh per module under optimal standard testing conditions \citep{MonoSol}. While real-world conditions rarely match these and slightly higher production than the maximum peak is possible, they provide a reasonable threshold for sanity checks. Therefore, we calculated the energy production per module per hour of sunshine for each day.
 
 For weather data from the Munich station, this results in an unrealistic average with particularly high variability between days ($0.37$ kWh $\pm 1.85$ kWh). The average production per hour on the 230 days, that exceed the plausibility threshold of 0.31 kWh, is remarkably high at 1.77 kWh, while the total production on these days seems plausible. It can be observed that they tend to occur on days with few hours of sunshine. (Figure \ref{fig:outlier_scatter}).  The remaining non-outlier days have a mean (0.11 $\pm$ 0.07 kWh) within expectations, considering that most days have worse conditions than the standard test conditions. 
 
@@ -151,23 +151,21 @@ Possible explanations could be inaccurate weather data, resulting in too few sun
 
 
 \section{Linear Regression Analysis}
-To gain a better understanding of the factors that influence power generation in the analyzed PV system, we take a closer look at \ref{fig:outlier_scatter}. Instead of coloring days with implausible production per hour of sunshine, we group days by the month they lie in. Since (on the northern hemisphere) the summer solstice happens roughly in the middle of June, the same color is assigned to each pair of months that are equidistant from June.
+To better understand the influencing factors, we further examine power production and sunshine hours with days grouped by month (Figure \ref{fig:scatter_months}). Since (on the northern hemisphere) the summer solstice happens roughly in the middle of June, the same color is assigned to each pair of months that are equidistant from June. The production per hour of sunshine is largest in May, June and July and smallest in November, December and January. At a larger solar angle, more electricity can be produced because more photons per area reach the earth's surface and less solar radiation is absorbed by the atmosphere. For this pv system the angle is most favorable around the June solstice. This motivates the introduction of solar noon altitudes as additional feature. The solar noon altitude for each day is defined as the altitude the sun reaches at solar noon, i.e. the maximum azimuth of the sun for each day. 
 
 \begin{figure}[H]
 	\includegraphics{fig/scatter.pdf}
 	\caption{The total energy production depends not only on the hours of sunshine, but also strongly on the season of the month.}\label{fig:scatter_months}
 \end{figure}
 
-As anticipated, \ref{fig:scatter_months} shows that production per hour of sunshine is largest in May, June and July and smallest in November, December and January. North of the Tropic of Cancer the sun reaches its maximum height close to the June solstice, which always lies around June 21st. A larger solar angle results in more photons per area reaching earths surface and less solar radiation being absorbed by the atmosphere. Since the solar cells inclination is 10° and the maximum height of the sun is below 80° in Fürstenfeldbruck, the suns angle with respect to the solar cells is most favorable around the June solstice. The insight that larger solar angles increase power production motivates the introduction of solar noon altitudes as additional feature. The solar noon altitude for each day is defined as the altitude the sun reaches at solar noon, i.e. the maximum azimuth of the sun for each day.
+Using the solar noon altitudes and all quantitative attributes obtained from the DWD weather stations, we train a linear regression model. In order to eliminate some of the highly correlated weather features, we use the LASSO with a relatively large regularization parameter of $\alpha = 0.5$. The fitted model has a mean squared error of 12.3 over the years 2019 to 2022. As shown in Figure \ref{fig:predictions}, the models fluctuations are too high in winter and too low in summer.
 
-Using the solar noon altitudes and all quantitative attributes obtained from the DWD weather stations, we train a linear regression model. In order to eliminate some of the highly correlated weather features, we use the LASSO with a relatively large regularization parameter of $\alpha = 0.5$. The fitted model has a mean squared error of 12.3 over the years 2019 to 2022. As shown in \ref{fig:predictions}, the models fluctuations are too high in winter and too low in summer.
-
-\begin{figure}[H]
+\begin{figure}
 	\includegraphics{fig/predictions.pdf}
 	\caption{Comparison of the prediction of the fitted models. Compared to the full year model, the seasonal fitting improves the prediction.}\label{fig:predictions}
 \end{figure}
 
-To mitigate this problem, we train four new linear regression models using the LASSO, one for each astronomical season. The astronomical seasons are defined via the duration of sunshine, see \cite{MS}. As shown in \ref{fig:predictions}, the four models provide a significantly better fit to the observed production data, resulting in a reduced overall mean squared error of 7.5.
+To mitigate this problem, we train four new linear regression models using the LASSO, one for each astronomical season. The astronomical seasons are defined via the duration of sunshine, see \cite{MS}. As shown in Figure \ref{fig:predictions}, the four models provide a significantly better fit to the observed production data, resulting in a reduced overall mean squared error of 7.5.
 
 \begin{figure}[H]
 	\includegraphics{fig/regression.pdf}
