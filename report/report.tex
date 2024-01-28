@@ -136,11 +136,11 @@ We validated data plausibility by comparing it to estimates from the European Un
 
 The annual production is within the estimated range ($6112.89$ kWh$ \pm 295.04$ kWh), except for 2022, where the production exceeded expectations. We attribute this to a sunnier year (\textbf{CITE}) which is also evident in our weather data. In winter, actual production is lower than the monthly estimates, likely due to snow covering the modules and blocking sunlight, and the fact that PVGIS does not model snow. In contrast, summer production exceeded estimates, but was in line with normal year-to-year variability due to weather conditions.
 
-\begin{figure}
+\begin{figure}[H]
 	\includegraphics{fig/outlier_scatter.pdf}
 	\caption{Outlier days have a plausible total production in the lower to middle range of all days. They tend to occur on days with few hours of sunshine.}\label{fig:outlier_scatter}
 \end{figure}
-\begin{figure}
+\begin{figure}[H]
 	\includegraphics{fig/prod_per_sunhour.pdf}
 	\caption{Production per module per sunshine hour, with sunshine hours as bars in the background. Interpolation smoothes out some implausible spikes, but also results in new spikes.}\label{fig:prod_per_hour}
 \end{figure}
@@ -155,7 +155,7 @@ Possible explanations could be inaccurate weather data, resulting in too few sun
 \section{Linear Regression Analysis}
 To gain a better understanding of the factors that influence power generation in the analyzed PV system, we take a closer look at \ref{fig:outlier_scatter}. Instead of coloring days with implausible production per hour of sunshine, we group days by the month they lie in. Since (on the northern hemisphere) the summer solstice happens roughly in the middle of June, the same color is assigned to each pair of months that are equidistant from June.
 
-\begin{figure}
+\begin{figure}[H]
 	\includegraphics{fig/scatter.pdf}
 	\caption{The total energy production depends not only on the hours of sunshine, but also strongly on the season of the month.}\label{fig:scatter_months}
 \end{figure}
@@ -164,14 +164,14 @@ As anticipated, \ref{fig:scatter_months} shows that production per hour of sunsh
 
 Using the solar noon altitudes and all quantitative attributes obtained from the DWD weather stations, we train a linear regression model. To increase interpretability and to eliminate some of the highly correlated weather features, we use the LASSO with a relatively large regularization parameter of $\alpha = 0.5$. The fitted model has a mean squared error of 12.3 over the years 2019 to 2022. As shown in \ref{fig:predictions}, the models fluctuations are too high in winter and too low in summer.
 
-\begin{figure}
+\begin{figure}[H]
 	\includegraphics{fig/predictions.pdf}
 	\caption{Comparison of the prediction of the fitted models. Compared to the full year model, the seasonal fitting improves the prediction.}\label{fig:predictions}
 \end{figure}
 
 To mitigate this problem, we train four new linear regression models using the LASSO, one for each astronomical season. The astronomical seasons are defined via the duration of sunshine, see \cite{MS}. As shown in \ref{fig:predictions}, the four models provide a significantly better fit to the observed production data, resulting in a reduced overall mean squared error of 7.5.
 
-\begin{figure}
+\begin{figure}[H]
 	\includegraphics{fig/regression.pdf}
 	\caption{Each model was trained using the LASSO with $\alpha = 0.5$ on all days which belong to the respective astronomical season and lie between 2019 and 2022.}\label{fig:coefficients}
 \end{figure}
