@@ -108,13 +108,13 @@ Inputs x are then mapped to $\langle x, w \rangle + \bar{y}$ by the obtained mod
 
 
 \section{Data collection}
-We are using two different data sources. One source is the alternating-current converter of the PV system which measures the incoming electricity and makes the data available daily.
-This converter has been collecting data for the last 5 years. The device is called \textit{Symo 6.0-3-M} and is made by Fronius.
+We are using two data sources. One source is the alternating-current converter of the PV system which measures the incoming electricity and makes the data available daily.
+This converter has been collecting data for the last four years. The device is called \textit{Symo 6.0-3-M} and is made by Fronius.
 The data on weather comes from the German weather service (Deutscher Wetter Dienst, DWD).
 \subsection{The PV system}
 The system we are investigating is located in Fürstenfeldbruck, Germany and is composed of 22 IBC MonoSol 310 VL5 solar panels \cite{MonoSol}.
 The array consists of 22 solar modules with a maximum power output (Pmax) of 310 Watts under standard testing conditions and 227.8 W  under Nominal Operating Cell Temperature (NOCT).
-It sits at 10° inclination, has an orientation of -110° and elevation of 528 m.
+It is positioned at 10° inclination, has an orientation of -110° and elevation of 528 m.
 
 
 \subsection{Weather data}
@@ -123,8 +123,8 @@ For this project, we retrieved daily climate data from different weather station
 The datasets include features like daily rainfall in mm, daily duration of sunshine in hours and daily mean of the air-temperature at a height of 2 meters in °C. 
 For information on all features check the README.md file in the repository. \\ 
 \\
-We use two datasets for the analysis, one containing the data of one weather station located in Munich (48.1632, 11.5429) and one containing interpolated data. For the interpolation we chose three weather stations surrounding the PV system in Fürstenfeldbruck (48.1825, 11.2474). 
-One station is located in Munich (48.1632, 11.5429), 22,2km away from the PV system, the second station is located in Augsburg (48.4253, 10.9417) with a distance of 35,2km and the third station is in Kaufbeuren-Oberbeuren (47.8761, 10.5849), which has a distance of 59,9km to the PV system. 
+We use two datasets for the analysis, one containing the data of one weather station located in Munich (48.1632, 11.5429), 22,2km away from the PV system, and one containing interpolated data. For the interpolation we chose three weather stations surrounding the PV system in Fürstenfeldbruck (48.1825, 11.2474). 
+For the first station we also use the Munich station, the second station is located in Augsburg (48.4253, 10.9417) with a distance of 35,2km and the third station is in Kaufbeuren-Oberbeuren (47.8761, 10.5849), which has a distance of 59,9km to the PV system. 
 We set the power parameter $\alpha$ to 1 and interpolated the data using IDW to predict the weather data at the location of the PV system. We interpolated the three features rainfall, hours of sunshine and temperature for this project.
 
 \section{Expected power production}\label{sec:methods}
