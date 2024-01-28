@@ -81,11 +81,9 @@ This work can be seen as a general study of photovoltaic technology on the basis
 \section{Methodology}
 \subsection{Photovoltaic cells}\label{sec:pv}
 
-Photovoltaic cells, also called solar cells, are key parts of solar panels which are widely used for electricity production. They can be used in devices like pocket calculators or be strung together to power houses or form industrial solar farms.
-\\
-\\
+Photovoltaic cells, also called solar cells, are key parts of solar panels which are widely used for electricity production.
 % basic structure
-Solar cells are made of semiconductor materials, usually silicone. The cell contains two layers of silicone, one with excess electrons and the other with missing electrons, called holes. Thus, the layers are differently charged and form an electrical field. 
+They are made of semiconductor materials, usually silicone. The cell contains two layers of silicone, one with excess electrons and the other with missing electrons, called holes. Thus, the layers are differently charged and form an electrical field. 
 % photovoltaic effect 
 The essential phenomenon regarding photovoltaik cells is the photovoltaik effect. It describes the event of a photon hitting the semiconductor material in the solar cell and dislodging electrons in the process. The dislodged electrons leave a hole and the electrons and holes now move directed by the electrical field to opposite sides of the silicone layer. In order use this event to create an electric current, metal contacts are placed at both sides of the silicone and facilitate the electrical flow. The electrons at one side can now flow through the wire into the holes at the other side of the silicone, which creates an electrical circuit. Light energy has been transformed into electrical energy. Solar cells include other building blocks like an anti-reflective surface, a protective glass screen and more \citep{SolarCells}.
 
@@ -162,7 +160,7 @@ To gain a better understanding of the factors that influence power generation in
 
 As anticipated, \ref{fig:scatter_months} shows that production per hour of sunshine is largest in May, June and July and smallest in November, December and January. North of the Tropic of Cancer the sun reaches its maximum height close to the June solstice, which always lies around June 21st. A larger solar angle results in more photons per area reaching earths surface and less solar radiation being absorbed by the atmosphere. Since the solar cells inclination is 10° and the maximum height of the sun is below 80° in Fürstenfeldbruck, the suns angle with respect to the solar cells is most favorable around the June solstice. The insight that larger solar angles increase power production motivates the introduction of solar noon altitudes as additional feature. The solar noon altitude for each day is defined as the altitude the sun reaches at solar noon, i.e. the maximum azimuth of the sun for each day.
 
-Using the solar noon altitudes and all quantitative attributes obtained from the DWD weather stations, we train a linear regression model. To increase interpretability and to eliminate some of the highly correlated weather features, we use the LASSO with a relatively large regularization parameter of $\alpha = 0.5$. The fitted model has a mean squared error of 12.3 over the years 2019 to 2022. As shown in \ref{fig:predictions}, the models fluctuations are too high in winter and too low in summer.
+Using the solar noon altitudes and all quantitative attributes obtained from the DWD weather stations, we train a linear regression model. In order to eliminate some of the highly correlated weather features, we use the LASSO with a relatively large regularization parameter of $\alpha = 0.5$. The fitted model has a mean squared error of 12.3 over the years 2019 to 2022. As shown in \ref{fig:predictions}, the models fluctuations are too high in winter and too low in summer.
 
 \begin{figure}[H]
 	\includegraphics{fig/predictions.pdf}
