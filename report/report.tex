@@ -86,7 +86,7 @@ It relies on the premise, that points close to an unmeasured location have more 
 Consequently, nearby points receive a higher weight during the interpolation than points that are further away \cite{Lu2008}. 
 The IDW formula is defined as
 \begin{align}
-    \hat{Z} = \sum_{i=1}^N w_iR_i \\
+    \hat{Z} = \sum_{i=1}^N w_iZ_i \\
     w_i = \frac{d_i^{-\alpha}}{\sum_{i=1}^N{d_i^{-\alpha}}}
 \end{align} \cite{Chen2012},
  where $\hat{Z}$ is the unknown data point, $w_i$ is the weight for a station i, $Z_i$ is the measured data of a location i, $d_i$ is the distance between the known and unknown location and $\alpha$ is the power. 
