@@ -2,6 +2,11 @@
 
 project for data literacy module
 
+## Install Requirements
+
+install required packages via
+`pip install -r requirements.txt`
+
 ## Source for weather data
 
 [Datasource](https://www.dwd.de/DE/leistungen/cdc/climate-data-center.html;jsessionid=620CDE4EACF97A8A00479EB9AF4A955E.live11054?nn=495662)
